@@ -2,11 +2,13 @@ package com.ATTAR.grafic;
 
 import com.ATTAR.defaultes.FrameLimiter;
 import com.ATTAR.defaultes.KeyListener;
-import com.sun.source.tree.WhileLoopTree;
+import org.lwjgl.openal.*;
 import org.joml.*;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
+import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -22,6 +24,8 @@ public class Window {
 	private float playerspeed = 1f;
 	private KeyListener keyListener;
 	private SceneManager scmg;
+	private long audioContext;
+	private long audioDevice;
 
 	public Window(String name, Vector2i size, boolean fullscrean, int i) {
 
@@ -52,6 +56,19 @@ public class Window {
 		glfwSwapInterval(1);
 //		defines capabilities to openGL context
 		GLCapabilities capabilities = GL.createCapabilities();
+		String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+		audioDevice = alcOpenDevice(defaultDeviceName);
+
+		int[] attributes = {0};
+		audioContext = alcCreateContext(audioDevice, attributes);
+		alcMakeContextCurrent(audioContext);
+
+		ALCCapabilities alcCapabilities = ALC.createCapabilities(audioDevice);
+		ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+
+		if (!alCapabilities.OpenAL10) {
+			assert false : "Audio library not supported.";
+		}
 
 
 		scmg = new SceneManager(new Vector2f(size.x, size.y), win, i);
@@ -102,7 +119,12 @@ public class Window {
 
 			
 		}
-		
+		alcDestroyContext(audioContext);
+		alcCloseDevice(audioDevice);
+
+		// Free the memory
+		glfwFreeCallbacks(win);
+		glfwDestroyWindow(win);
 		
 	}
 }

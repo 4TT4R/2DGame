@@ -7,6 +7,7 @@ import org.joml.*;
 import java.util.*;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 public class Levels extends Scene {
     private Camera cam;
@@ -45,6 +46,9 @@ public class Levels extends Scene {
         
         if (keyListener.isPressedOnce(GLFW_KEY_ENTER)) {
             Buttons.get(CurrentButton).function();
+        }
+        if (keyListener.isPressedOnce(GLFW_KEY_ESCAPE)) {
+            scmg.switchScene("menu", null);
         }
         for (int i = 0; i < Buttons.size(); i++) {
             Buttons.get(i).update();

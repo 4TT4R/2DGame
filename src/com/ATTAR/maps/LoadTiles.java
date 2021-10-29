@@ -3,11 +3,9 @@ package com.ATTAR.maps;
 import com.ATTAR.objects.Tiles;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import com.ATTAR.grafic.Camera;
+import com.ATTAR.grafic.*;
 
-import java.util.HashMap;
-import java.util.Set;
-
+import java.util.*;
 public class LoadTiles {
     private static Set<Vector2f> BlockPos;
     private static HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
@@ -20,7 +18,7 @@ public class LoadTiles {
 
     }
 
-    public static HashMap load(HashMap<Vector2f, Integer> Map, Camera cam){
+    public static HashMap<Vector2f, Tiles> load(HashMap<Vector2f, Integer> Map, Camera cam){
         BlockPos = Map.keySet();
         for (int i = 0; i < BlockPos.size(); i++) {
 

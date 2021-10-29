@@ -82,7 +82,7 @@ public class LoadMap {
         return loader;
     }
 
-    public LoadMap(String MapName, Camera cam) {
+    public LoadMap(String MapName) {
         loader = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -114,7 +114,7 @@ public class LoadMap {
                                 if (ss[j].contains("0") || ss[j].contains("1") || ss[j].contains("2") || ss[j].contains("3") || ss[j].contains("4") || ss[j].contains("5") || ss[j].contains("6") || ss[j].contains("7") || ss[j].contains("8") || ss[j].contains("9")) {
 
                                     if (Integer.parseInt(ss[j].trim()) != 0) {
-                                        System.out.println(new Vector2f(j, jj)+"     "+ss[j].trim());
+
                                         putMap(new Vector2f(j, jj), Integer.parseInt(ss[j].trim()));
 
                                     }

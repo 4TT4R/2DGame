@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 
+import com.ATTAR.Sound.Sound;
 import com.ATTAR.components.CompRender;
+import com.ATTAR.defaultes.AssetsPool;
 import com.ATTAR.defaultes.ButtonListener;
 import com.ATTAR.defaultes.KeyListener;
 import com.ATTAR.defaultes.PlayerMovement;
@@ -57,18 +59,19 @@ public class GameScene extends Scene {
 	Camera cam;
 	private Vector2f CamSize;
 	private LoadMap loadMap;
-
+	private Sound bgsound;
 
 
 	public GameScene(Vector2f CamSize, String MapName, long win, int i, SceneManager scmg) {
 		isLoaded =false;
-
+		AssetsPool.addSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg", true);
+		bgsound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
 		cam = new Camera(new Vector2f(0), i);
 		this.CamSize = cam.getSize();
 		keyListener = new KeyListener(win);
 		player = new Player(cam);
 		player.setPos(new Vector2f(100,300));
-		loadMap = new LoadMap(MapName+".txm", cam);
+		loadMap = new LoadMap(MapName+".txm");
 		PM = new PlayerMovement(win, player.getPos());
 		pause = false;
 		sdf = new Sdf();
@@ -110,8 +113,10 @@ public class GameScene extends Scene {
 
 
 		else if(!pause) {
+			if (!bgsound.isPlaying()) {
+				bgsound.play();
+			}
 
-			player.update();
 			player.setPos(PM.update());
 			if (player.getHp() <= 0) {
 				System.out.println("GameOver");
@@ -138,8 +143,12 @@ public class GameScene extends Scene {
 
 				}
 			}
+			player.update();
 		}
 		else if(pause){
+			if (bgsound.isPlaying()) {
+				bgsound.pause();
+			}
 			buttonListener.update();
 
 			int CurrentButton = buttonListener.getButtonId();
