@@ -1,9 +1,9 @@
 package com.ATTAR.Sound;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
+import java.nio.*;
+
 
 import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
+import static org.lwjgl.stb.STBVorbis.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.libc.LibCStdlib.free;
 public class Sound {
@@ -11,13 +11,13 @@ public class Sound {
 
     private int bufferId;
     private int sourceId;
-    private int songpos;
+
     private String filepath;
 
     private boolean isPlaying = false;
 
     public Sound(String filepath, boolean loops) {
-        songpos = 0;
+
         this.filepath = filepath;
 
         // Allocate space to store the return information from stb
@@ -59,7 +59,8 @@ public class Sound {
         alSourcei(sourceId, AL_BUFFER, bufferId);
         alSourcei(sourceId, AL_LOOPING, loops ? 1 : 0);
         alSourcei(sourceId, AL_POSITION, 0);
-        alSourcef(sourceId, AL_GAIN, 0.3f);
+        alSourcef(sourceId, AL_GAIN, 0.9f);
+
 
         // Free stb raw audio buffer
         free(rawAudioBuffer);
@@ -77,7 +78,9 @@ public class Sound {
 
         }
     }
-
+    public void setVolume(float volume){
+        alSourcef(sourceId, AL_GAIN, volume/100);
+    }
     public void play() {
         int state = alGetSourcei(sourceId, AL_SOURCE_STATE);
         if (state == AL_STOPPED) {
