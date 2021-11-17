@@ -9,10 +9,7 @@ import java.util.Set;
 
 import com.ATTAR.Sound.Sound;
 import com.ATTAR.components.CompRender;
-import com.ATTAR.defaultes.AssetsPool;
-import com.ATTAR.defaultes.ButtonListener;
-import com.ATTAR.defaultes.KeyListener;
-import com.ATTAR.defaultes.PlayerMovement;
+import com.ATTAR.defaultes.*;
 import com.ATTAR.fonts.Sdf;
 import com.ATTAR.grafic.Shader;
 
@@ -20,6 +17,7 @@ import com.ATTAR.maps.*;
 
 
 import com.ATTAR.physic.AABB;
+import com.ATTAR.physic.Physic;
 import org.joml.*;
 
 import com.ATTAR.grafic.Camera;
@@ -61,6 +59,8 @@ public class GameScene extends Scene {
 	private Vector2f CamSize, playerTile;
 	private LoadMap loadMap;
 	private Sound bgsound;
+	private AABB AABB = new AABB();
+	private Physic physic;
 	public Vector2f getPlayerTileByCenter() {
 		return new Vector2f((int)Math.floor((player.getPos().x+50)/100), (int)Math.floor((player.getPos().y+50)/100));
 	}
@@ -71,77 +71,12 @@ public class GameScene extends Scene {
 	public void getCollision() {
 
 		PM.colidex = false;
-		PM.colidey = false;
 
-//		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
-//			if (AABB.isAabbYCollision(player.getPos(),
-//					new Vector2f(player.getScale().x*100,player.getScale().y*100), PM.GetVector(),
-//					BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1)).getPos(),
-//					new Vector2f(100))) {
-//
-//
-//				PM.colidey = true;
-//			}
-//
-//		}
-//		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
-//			if (AABB.isAabbYCollision(player.getPos(),
-//					new Vector2f(player.getScale().x*100,player.getScale().y*100), PM.GetVector(),
-//					BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1)).getPos(),
-//					new Vector2f(100))) {
-//
-//
-//				PM.colidey = true;
-//			}
-//
-//		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
-			;
-			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*100), PM.GetVector(),
-					BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1)).getPos(),
-					new Vector2f(100))) {
-
-
-				PM.colidey = true;
-			}
-
-		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
-
-			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*100), PM.GetVector(),
-					BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1)).getPos(),
-					new Vector2f(100))) {
-
-
-				PM.colidey = true;
-			}
-
-		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
-			;
-			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*99), PM.GetVector(),
-					BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1)).getPos(),
-					new Vector2f(100))) {
-
-
-				PM.colidey = true;
-			}
-
-		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
-
-			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*99), PM.GetVector(),
-					BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1)).getPos(),
-					new Vector2f(100))) {
-
-
-				PM.colidey = true;
-			}
-
+		physic.collidingY = false;
+		if(PM.jump) {
+			System.out.println("Jumping");
+			physic.SetGravityVector(PM.GetVector().y);
+			PM.jump = false;
 		}
 
 
@@ -150,9 +85,10 @@ public class GameScene extends Scene {
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
 
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*99),PM.GetVector(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100),PM.GetVector(),
 					BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y)).getPos(),
 					new Vector2f(100))) {
+				player.setPos(AABB.getCorrectPos());
 
 				PM.colidex = true;
 			}
@@ -161,9 +97,10 @@ public class GameScene extends Scene {
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
 
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*99),PM.GetVector(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100),PM.GetVector(),
 					BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1)).getPos(),
 					new Vector2f(100))) {
+				player.setPos(AABB.getCorrectPos());
 
 				PM.colidex = true;
 			}
@@ -177,10 +114,11 @@ public class GameScene extends Scene {
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
 
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*99), PM.GetVector(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100), PM.GetVector(),
 					BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y)).getPos(),
 					new Vector2f(100))) {
 
+				player.setPos(AABB.getCorrectPos());
 
 				PM.colidex = true;
 			}
@@ -189,10 +127,11 @@ public class GameScene extends Scene {
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1))) {
 
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*99), PM.GetVector(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100), PM.GetVector(),
 					BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1)).getPos(),
 					new Vector2f(100))) {
 
+				player.setPos(AABB.getCorrectPos());
 
 				PM.colidex = true;
 			}
@@ -202,22 +141,79 @@ public class GameScene extends Scene {
 
 
 //			right collision end
+		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
+
+			if (AABB.isAabbYCollision(player.getPos(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1)).getPos(),
+					new Vector2f(100))) {
+				player.setPos(AABB.getCorrectPos());
+				physic.collidingY = true;
+
+			}
+
+		}
+		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
+
+			if (AABB.isAabbYCollision(player.getPos(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1)).getPos(),
+					new Vector2f(100))) {
+				player.setPos(AABB.getCorrectPos());
+				physic.collidingY = true;
+
+
+			}
+
+		}
+		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
+			;
+			if (AABB.isAabbYCollision(player.getPos(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1)).getPos(),
+					new Vector2f(100))) {
+				player.setPos(AABB.getCorrectPos());
+
+				physic.collidingY = true;
+				PM.can_jump =true;
+
+			}
+
+		}
+
+		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
+
+			if (AABB.isAabbYCollision(player.getPos(),
+					new Vector2f(player.getScale().x*83,player.getScale().y*100), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1)).getPos(),
+					new Vector2f(100))) {
+				player.setPos(AABB.getCorrectPos());
+
+				physic.collidingY = true;
+				PM.can_jump =true;
+				PM.colidey = true;
+			}
+
+		}
 
 
 
 
-
+		PM.setPlayerVector(new Vector2f(PM.GetVector().x,physic.GravityVector()));
 //			bottom collision end
 	}
 	public GameScene(Vector2f CamSize, String MapName, long win, int i, SceneManager scmg) {
 		isLoaded =false;
+		physic = new Physic();
+		BlockMap = new HashMap<>();
+		Buttons = new ArrayList<>();
 		AssetsPool.addSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg", true);
 		bgsound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
 		cam = new Camera(new Vector2f(0), i);
 		this.CamSize = cam.getSize();
 		keyListener = new KeyListener(win);
 		player = new Player(cam);
-		player.setPos(new Vector2f(100,300));
+		player.setPos(new Vector2f(100,350));
 		loadMap = new LoadMap(MapName+".txm");
 		PM = new PlayerMovement(win, player.getPos());
 		pause = false;
@@ -264,10 +260,10 @@ public class GameScene extends Scene {
 				bgsound.setVolume(8);
 				bgsound.play();
 			}
-
+			physic.update();
 			getCollision();
 
-			player.setPos(new Vector2f(player.getPos().x+PM.GetVector().x, player.getPos().y+PM.GetVector().y));
+			player.setPos(new Vector2f(player.getPos().x+PM.GetVector().x, player.getPos().y+physic.getGravityVector()));
 
 			if (player.getHp() <= 0) {
 				System.out.println("GameOver");

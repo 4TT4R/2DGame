@@ -7,30 +7,31 @@ import org.joml.Vector2f;
 
 public class PlayerMovement {
     long win;
-    private Vector2f PlayerPos = new Vector2f();
     private Vector2f PlayerVector = new Vector2f();
 
-    private float DefautPlayerSpeed, PlayerSpeed, PlayerRun;
+    private float DefautPlayerSpeed, PlayerSpeed, PlayerRun, jump_power;
     private Sound run;
-    public boolean colidex,colidey;
+    public boolean colidex,colidey,can_jump, jump;
 
-    public void setPlayerPos(Vector2f playerPos) {
-        PlayerPos = playerPos;
+    public void setPlayerVector(Vector2f playerVector) {
+        this.PlayerVector = playerVector;
     }
-
     KeyListener listener;
     public PlayerMovement(long win, Vector2f PlayerPos) {
         this.win = win;
-        this.PlayerPos = PlayerPos;
+        can_jump = false;
+        jump_power = 25;
+        jump = false;
         listener = new KeyListener(win);
         DefautPlayerSpeed = 10f;
         PlayerRun = 17f;
         colidey = false;
         colidex = false;
         AssetsPool.addSound("./Assets/Sounds/SFX/walk.ogg", true);
-        run= AssetsPool.getSound("./Assets/Sounds/SFX/walk.ogg");
+        run = AssetsPool.getSound("./Assets/Sounds/SFX/walk.ogg");
         run.setVolume(15);
     }
+
     public Vector2f GetVector() {
 
             if (listener.isPressed(GLFW_KEY_LEFT_SHIFT)) {
@@ -41,17 +42,18 @@ public class PlayerMovement {
             }
 
             if (listener.isPressed(GLFW_KEY_W) || listener.isPressed(GLFW_KEY_UP) ){
-                if (!run.isPlaying()) {
-                    run.play();
+                if (can_jump) {
+                    jump = true;
+                    PlayerVector = new Vector2f(PlayerVector.x, jump_power);
+                    can_jump= false;
                 }
-                PlayerVector = new Vector2f(PlayerVector.x, PlayerSpeed);
             }
-            else if (listener.isPressed(GLFW_KEY_S) || listener.isPressed(GLFW_KEY_DOWN) ){
-                if (!run.isPlaying()) {
-                    run.play();
-                }
-                PlayerVector = new Vector2f(PlayerVector.x, PlayerSpeed*(-1));
-            }
+//            else if (listener.isPressed(GLFW_KEY_S) || listener.isPressed(GLFW_KEY_DOWN) ){
+//                if (!run.isPlaying()) {
+//                    run.play();
+//                }
+//                PlayerVector = new Vector2f(PlayerVector.x, PlayerSpeed*(-1));
+//            }
             else{
                 PlayerVector = new Vector2f(PlayerVector.x, 0);
             }
@@ -71,7 +73,7 @@ public class PlayerMovement {
             else {
                 PlayerVector = new Vector2f(0, PlayerVector.y);
             }
-            if (!listener.isPressed(GLFW_KEY_D) && !listener.isPressed(GLFW_KEY_RIGHT) && !listener.isPressed(GLFW_KEY_A) && !listener.isPressed(GLFW_KEY_LEFT) && !listener.isPressed(GLFW_KEY_S) && !listener.isPressed(GLFW_KEY_DOWN) && !listener.isPressed(GLFW_KEY_W) && !listener.isPressed(GLFW_KEY_UP)) {
+            if (!listener.isPressed(GLFW_KEY_D) && !listener.isPressed(GLFW_KEY_RIGHT) && !listener.isPressed(GLFW_KEY_A) && !listener.isPressed(GLFW_KEY_LEFT)) {
                 if (run.isPlaying()){
                     run.stop();
                 }
@@ -80,8 +82,8 @@ public class PlayerMovement {
         if (colidex) {
             PlayerVector = new Vector2f(0,PlayerVector.y);
         }
-        if (colidey) {
-            PlayerVector = new Vector2f(PlayerVector.x,0);
+        if (jump) {
+            PlayerVector = new Vector2f(PlayerVector.x,jump_power);
         }
 
         return PlayerVector;

@@ -8,6 +8,7 @@ import com.ATTAR.grafic.Camera;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoadMap {
 
@@ -16,22 +17,18 @@ public class LoadMap {
     List<String> TileSource = new ArrayList<>();
     private HashMap<Vector2f, Integer> Map = new HashMap<>();
     private HashMap<String, Integer> Gids = new HashMap<>();
-    private HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
+
     private String txm_File;
 
     private int width, height;
     private boolean isMapLoaded = false;
 
-    public HashMap<Vector2f, Tiles> getBlockMap() {
-        return BlockMap;
-    }
 
-    public void setBlockMap(HashMap<Vector2f, Tiles> blockMap) {
-        BlockMap = blockMap;
-    }
+
+
 
     public HashMap<Vector2f, Integer> getMap() {return Map;}
-
+    public void setMap(HashMap<Vector2f, Integer> Map){this.Map = Map;}
     public void putMap(Vector2f key, int value) {Map.put(key, value);}
 
     public void putGrid(String key, int value) {Gids.put(key, value);}
@@ -83,6 +80,7 @@ public class LoadMap {
     }
 
     public LoadMap(String MapName) {
+        setMap(new HashMap<>());
         loader = new Thread(new Runnable() {
             @Override
             public void run() {

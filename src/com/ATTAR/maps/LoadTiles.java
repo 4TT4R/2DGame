@@ -19,6 +19,7 @@ public class LoadTiles {
     }
 
     public static HashMap<Vector2f, Tiles> load(HashMap<Vector2f, Integer> Map, Camera cam){
+        BlockMap = new HashMap<>();
         BlockPos = Map.keySet();
         for (int i = 0; i < BlockPos.size(); i++) {
 
