@@ -10,7 +10,7 @@ import com.ATTAR.components.*;
 public class Tiles {
 
 
-	private final Camera cam;
+	private Camera cam;
 	private Vector3f Scale;
 	private Vector2f Size;
 	private int type;
@@ -19,23 +19,7 @@ public class Tiles {
 	public HashMap<String, Boolean> GetInfo() {
 		return properties;
 	}
-	public void SetProperties(int type) {
-		switch (type) {
-		case 1:
 
-			
-		break;
-		case 2: 
-			
-		break;
-		case 3: 
-			
-		break;
-		default: 
-			System.out.println("Type: " + type + " is not definited");
-		break;
-		}
-	}
 
 	public void setScale(Vector3f Scale) {
 		this.Scale = Scale;
@@ -43,19 +27,52 @@ public class Tiles {
 	public Vector3f getScale() {
 		return this.Scale;
 	}
-	
-	
-	public Tiles(Camera cam) {
+	private Vector4f AABB;
+	private String Texture;
+	private boolean Killing, Solid, animated;
+
+	public boolean isAnimated() {
+		return animated;
+	}
+
+	public boolean isKilling() {
+		return Killing;
+	}
+
+	public boolean isSolid() {
+		return Solid;
+	}
+
+	public String getTexture() {
+		return Texture;
+	}
+
+	public Vector4f getAABB() {
+		return AABB;
+	}
+
+	public Tiles(Tiles tile, Camera cam) {
 		this.cam = cam;
+		this.AABB = tile.getAABB();
+		this.Texture = tile.getTexture();
+		this.Killing = tile.isKilling();
+		this.Solid = tile.isSolid();
+		this.animated = tile.isAnimated();
+	}
+	public Tiles(Vector4f AABB, String Texture,Vector2f size, boolean Solid, boolean Killing, boolean animated) {
+		this.AABB = AABB;
+		this.Texture = Texture;
+		this.Killing = Killing;
+		this.Solid = Solid;
+		this.animated = animated;
+
 	}
 	private Shader shader = new Shader("Shaders/Default.glsl");
-	public void init( int Type){
+	public void init(){
 		Scale = new Vector3f(1);
-		this.type =Type;
-		SetProperties(type);
 		setSize(new Vector2f(100));
 		render = new CompRender();
-		render.init(shader,"./Assets/Tiles/Brick.png", cam);
+		render.init(shader,"./Assets/Tiles/"+Texture, cam, animated);
 
 	}
 	

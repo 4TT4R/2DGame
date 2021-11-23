@@ -7,20 +7,22 @@ public class Player {
 	private Vector3f Scale;
 	private Vector2f Size;
 	private int hp;
+	private Animation an;
 	
 	private CompRender render;
 	public Player(Camera cam) {
+		an = new Animation(true);
 		setSize(new Vector2f(38,50));
 		Scale = new Vector3f(1);
 		hp = 3;
 		render = new CompRender();
-		render.init(shader,"./Assets/Tiles/PLA2.png", cam);
+		render.init(shader,"./Assets/Tiles/Player.png", cam, true);
 	}
 	private Shader shader = new Shader("Shaders/Default.glsl");
 
 	
 	public void update() {
-		render.Update(Scale);
+		render.Update(an,"Player", Scale);
 
 		
 	}

@@ -1,5 +1,6 @@
 package com.ATTAR.maps;
 
+import com.ATTAR.defaultes.AssetsPool;
 import com.ATTAR.objects.Tiles;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -9,9 +10,9 @@ import java.util.*;
 public class LoadTiles {
     private static Set<Vector2f> BlockPos;
     private static HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
-    public static Tiles loadTiles(Vector2f pos, Vector3f scale, Vector2f Scales, int Type, Camera cam) {
-        Tiles tiles = new Tiles(cam);
-        tiles.init(Type);
+    public static Tiles loadTiles(Vector2f pos, Vector3f scale, Vector2f Scales, int ID, Camera cam) {
+        Tiles tiles = new Tiles(AssetsPool.getTile(ID-1),cam);
+        tiles.init();
         tiles.setScale(scale);
         tiles.setPos(new Vector2f(pos.x * (100*Scales.x), pos.y* (100*Scales.y)));
         return tiles;

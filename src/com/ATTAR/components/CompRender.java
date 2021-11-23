@@ -6,7 +6,9 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
+import java.io.IOException;
 import java.nio.*;
+import java.util.Arrays;
 
 import com.ATTAR.fonts.Sdf;
 import org.joml.*;
@@ -22,6 +24,8 @@ public class CompRender  {
 	Camera cam;
 	private Vector2f pos;
 	private Vector3f scale;
+	private int i;
+
 	public Vector4f getColor() {
 		return color;
 	}
@@ -32,7 +36,7 @@ public class CompRender  {
 
 	float[] Verticies;
 	public CompRender() {
-
+		i = 0;
 
 		
 		float[] Verticies = {
@@ -49,7 +53,9 @@ public class CompRender  {
 	private static int[] Elements = {
 		0,1,2,2,3,0
 	};
+	private boolean animated;
 	private Shader shader;
+	private Animation an;
 	private Texture test_Tex;
 	private int vaoID, vboID, eboID;
 	private Sdf sdf;
@@ -135,14 +141,19 @@ public class CompRender  {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	}
-	public void init(Shader shader, String Tex_path, Camera cam) {
+	public void init(Shader shader, String Tex_path, Camera cam, boolean animated) {
+		i = 0;
+		this.animated = animated;
 		this.cam = cam;
 		this.shader = shader;
 		color = new Vector4f(1,0,0,1);
 
 
-		test_Tex = new Texture(Tex_path);
-
+		try {
+			test_Tex = new Texture(Tex_path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 
 
@@ -196,7 +207,7 @@ public class CompRender  {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	}	
+	}
 
 	
 
@@ -217,7 +228,9 @@ public class CompRender  {
 		shader.uploadVec4f("uColor", color);
 		shader.uploadVec3f("uScale", scale);
 		shader.uploadVec2f("uPos", this.pos);
-		
+
+
+
 		glActiveTexture(GL_TEXTURE0);
 		if (this.test_Tex != null) {
 			test_Tex.bind();
@@ -226,16 +239,51 @@ public class CompRender  {
 		
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
-		
+
 		glDrawElements(GL_TRIANGLES, Elements.length, GL_UNSIGNED_INT, 0);
-		
+
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
-		
+
 		glBindVertexArray(0);
 		shader.detach();
 
 	}
+	public void Update(Animation an, String anName, Vector3f scale) {
+		i++;
+		shader.use();
+		shader.uploadTexture("TexSampler", 0);
+		shader.uploadMat4f("projection", cam.getProjectionMatrix());
+		shader.uploadMat4f("wiev", cam.getViewMatrix());
+		shader.uploadVec4f("uColor", color);
+		shader.uploadVec3f("uScale", scale);
+		shader.uploadVec2f("uPos", this.pos);
+
+
+		glActiveTexture(GL_TEXTURE0);
+		if (this.test_Tex != null) {
+
+			test_Tex.bind(an.getTex(i, anName));
+		}
+		if (i== an.getFrames()-1 && an.isLooping()) {
+			i=0;
+		}
+		glBindVertexArray(vaoID);
+
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+
+		glDrawElements(GL_TRIANGLES, Elements.length, GL_UNSIGNED_INT, 0);
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+
+		glBindVertexArray(0);
+		test_Tex.unbind();
+		shader.detach();
+
+	}
+
 
 	public void Update(String msg,Vector2f pos, float scale, Vector4f color) {
 

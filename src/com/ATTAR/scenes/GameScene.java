@@ -70,7 +70,7 @@ public class GameScene extends Scene {
 	}
 	public void getCollision() {
 
-		PM.colidex = false;
+		PM.collideX = false;
 
 		physic.collidingY = false;
 		if(PM.jump) {
@@ -90,7 +90,7 @@ public class GameScene extends Scene {
 					new Vector2f(100))) {
 				player.setPos(AABB.getCorrectPos());
 
-				PM.colidex = true;
+				PM.collideX = true;
 			}
 
 		}
@@ -102,7 +102,7 @@ public class GameScene extends Scene {
 					new Vector2f(100))) {
 				player.setPos(AABB.getCorrectPos());
 
-				PM.colidex = true;
+				PM.collideX = true;
 			}
 
 		}
@@ -120,7 +120,7 @@ public class GameScene extends Scene {
 
 				player.setPos(AABB.getCorrectPos());
 
-				PM.colidex = true;
+				PM.collideX = true;
 			}
 
 		}
@@ -133,7 +133,7 @@ public class GameScene extends Scene {
 
 				player.setPos(AABB.getCorrectPos());
 
-				PM.colidex = true;
+				PM.collideX = true;
 			}
 
 		}
@@ -191,7 +191,7 @@ public class GameScene extends Scene {
 
 				physic.collidingY = true;
 				PM.can_jump =true;
-				PM.colidey = true;
+				PM.collideY = true;
 			}
 
 		}
@@ -203,6 +203,12 @@ public class GameScene extends Scene {
 //			bottom collision end
 	}
 	public GameScene(Vector2f CamSize, String MapName, long win, int i, SceneManager scmg) {
+		sdf = new Sdf();
+		sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 128);
+		sdfShader = new Shader("./Shaders/sdfShader.glsl");
+		fontRender = new CompRender();
+		fontRender.init(sdfShader, cam, sdf);
+
 		isLoaded =false;
 		physic = new Physic();
 		BlockMap = new HashMap<>();
@@ -246,9 +252,11 @@ public class GameScene extends Scene {
 	public void update() {
 
 		if (loadMap.getLoader().isAlive()) {
+
 //            System.out.println("Some definitely useful loading screen tip: Try not die");
 		}
 		else if(!isLoaded){
+
 			BlockMap = LoadTiles.load(loadMap.getMap(), cam);
 
 			isLoaded =true;
@@ -256,6 +264,7 @@ public class GameScene extends Scene {
 
 
 		else if(!pause) {
+
 			if (!bgsound.isPlaying()) {
 				bgsound.setVolume(8);
 				bgsound.play();
@@ -328,11 +337,5 @@ public class GameScene extends Scene {
 	public Vector2f GetPlayerPos() {
 		return player.getPos();
 	}
-	public Tiles initTiles(Vector2f pos, Vector3f scale, Vector2f Scales, int Type, Camera cam  ) {
-		Tiles tiles = new Tiles(cam);
-		tiles.init(Type);
-		tiles.setScale(scale);
-		tiles.setPos(new Vector2f(pos.x * (100*Scales.x), pos.y* (100*Scales.y)));
-		return tiles;
-	}
+
 }

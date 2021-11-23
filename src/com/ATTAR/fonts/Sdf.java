@@ -97,7 +97,7 @@ public class Sdf {
 
 
 
-        BufferedImage testImage;
+
         Library library = FreeType.newLibrary();
         assert(library != null);
 

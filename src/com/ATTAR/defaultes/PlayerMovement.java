@@ -9,9 +9,9 @@ public class PlayerMovement {
     long win;
     private Vector2f PlayerVector = new Vector2f();
 
-    private float DefautPlayerSpeed, PlayerSpeed, PlayerRun, jump_power;
+    private float DefaultPlayerSpeed, PlayerSpeed, PlayerRun, jump_power;
     private Sound run;
-    public boolean colidex,colidey,can_jump, jump;
+    public boolean collideX,collideY,can_jump, jump;
 
     public void setPlayerVector(Vector2f playerVector) {
         this.PlayerVector = playerVector;
@@ -23,10 +23,10 @@ public class PlayerMovement {
         jump_power = 25;
         jump = false;
         listener = new KeyListener(win);
-        DefautPlayerSpeed = 10f;
+        DefaultPlayerSpeed = 10f;
         PlayerRun = 17f;
-        colidey = false;
-        colidex = false;
+        collideY = false;
+        collideX = false;
         AssetsPool.addSound("./Assets/Sounds/SFX/walk.ogg", true);
         run = AssetsPool.getSound("./Assets/Sounds/SFX/walk.ogg");
         run.setVolume(15);
@@ -38,7 +38,7 @@ public class PlayerMovement {
                 PlayerSpeed = PlayerRun;
             }
             else if (!listener.isPressed(GLFW_KEY_LEFT_SHIFT)) {
-                PlayerSpeed = DefautPlayerSpeed;
+                PlayerSpeed = DefaultPlayerSpeed;
             }
 
             if (listener.isPressed(GLFW_KEY_W) || listener.isPressed(GLFW_KEY_UP) ){
@@ -79,7 +79,7 @@ public class PlayerMovement {
                 }
                 PlayerVector = new Vector2f(0);
             }
-        if (colidex) {
+        if (collideX) {
             PlayerVector = new Vector2f(0,PlayerVector.y);
         }
         if (jump) {

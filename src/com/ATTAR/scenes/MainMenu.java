@@ -6,6 +6,7 @@ import com.ATTAR.defaultes.KeyListener;
 import com.ATTAR.fonts.Sdf;
 import com.ATTAR.grafic.Camera;
 import com.ATTAR.grafic.*;
+import com.ATTAR.maps.TileSetLoad;
 import com.ATTAR.objects.Button;
 
 import org.joml.*;
@@ -29,13 +30,17 @@ public class MainMenu extends Scene {
     private List<Button> Buttons = new ArrayList<>();
     private KeyListener keyListener;
     private SceneManager scmg;
-
+    private TileSetLoad tileSetLoad;
     private Shader sdfShader;
     private CompRender fontRender;
     private Sdf sdf;
+    private boolean needload, needFill;
     Random random = new Random();
     String message;
     public MainMenu(long win, SceneManager scmg, int i) {
+        needload = true;
+        needFill = true;
+        tileSetLoad = new TileSetLoad();
         this.scmg = scmg;
         keyListener = new KeyListener(win);
         sdf = new Sdf();
@@ -68,33 +73,46 @@ public class MainMenu extends Scene {
 
 
     public void update(){
-
-        buttonListener.update();
-
-        int CurrentButton = buttonListener.getButtonId();
-
-        if (keyListener.isPressedOnce(GLFW_KEY_ENTER)){
-            Buttons.get(CurrentButton).function();
+        if (needload) {
+            tileSetLoad.interpretData();
+            needload =false;
         }
-        for (int i = 0; i<Buttons.size(); i++) {
-            Buttons.get(i).update();
-            if (i == CurrentButton) {
-                Buttons.get(i).setSelected(true);
+        if (!tileSetLoad.isTileLoaded()) {
+
+            fontRender.Update("Loading", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1));
+        }
+        if (needFill && tileSetLoad.isTileLoaded()) {
+            tileSetLoad.fillAsPool();
+            needFill = false;
+        }
+        else {
+
+
+            buttonListener.update();
+
+            int CurrentButton = buttonListener.getButtonId();
+
+            if (keyListener.isPressedOnce(GLFW_KEY_ENTER)) {
+                Buttons.get(CurrentButton).function();
             }
-            else {
-                Buttons.get(i).setSelected(false);
+            for (int i = 0; i < Buttons.size(); i++) {
+                Buttons.get(i).update();
+                if (i == CurrentButton) {
+                    Buttons.get(i).setSelected(true);
+                } else {
+                    Buttons.get(i).setSelected(false);
+                }
             }
+            fontRender.Update("Game Name", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1));
+            fontRender.Update("By ATTAR", new Vector2f(300, 50), 0.2f, new Vector4f(0, 1, 0, 1));
+            message = "";
+            for (int i = 0; i < 10; i++) {
+
+                message += (char) (random.nextInt('z' - 'a') + 'a');
+            }
+
+            fontRender.Update(message, new Vector2f(300, 300), 0.4f, new Vector4f(0, 1, 0, 1));
         }
-        fontRender.Update("Game Name",new Vector2f(300,400), 0.4f, new Vector4f(0,1,0,1));
-        fontRender.Update("By ATTAR",new Vector2f(300,50), 0.2f, new Vector4f(0,1,0,1));
-        message = "";
-        for (int i=0; i < 10; i++) {
-
-            message += (char)(random.nextInt('z' - 'a') + 'a');
-        }
-
-        fontRender.Update(message,new Vector2f(300,300), 0.4f, new Vector4f(0,1,0,1));
-
     }
 
 
