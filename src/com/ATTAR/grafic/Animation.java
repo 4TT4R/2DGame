@@ -10,7 +10,7 @@ import java.util.List;
 public class Animation {
 
 
-    private int i;
+    private int i,frame;
     private List<Integer> TexList = new ArrayList<>();
     private boolean looping;
 
@@ -18,21 +18,33 @@ public class Animation {
         return TexList.size() ;
     }
     public Animation(boolean looping) {
+        i=-1;
+        frame =0;
         this.looping = looping;
 
     }
 
 
-    public int getTex(int i, String name) {
-        TexList= AssetsPool.getTexList(name);
-        return TexList.get(i);
+    public void setTex(String name) {
+        
+        this.TexList= AssetsPool.getTexList(name);
+
     }
 
     public int reset() {
         return 0;
 
     }
-    public void update() {
+    public int update(int framePerSec) {
+        i++;
+        if(i>=60&& isLooping()) {
+            i=0;
+        }
+        if (i%Math.ceil(60/framePerSec) == 0 && i<60) {
+            frame = (int) (i/Math.ceil(60/framePerSec));
+            return TexList.get(frame);
+        }
+        return TexList.get(frame);
 
     }
 

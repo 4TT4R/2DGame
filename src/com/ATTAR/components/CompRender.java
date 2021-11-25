@@ -246,6 +246,9 @@ public class CompRender  {
 		glDisableVertexAttribArray(1);
 
 		glBindVertexArray(0);
+		if (this.test_Tex != null) {
+			test_Tex.unbind();
+		}
 		shader.detach();
 
 	}
@@ -262,11 +265,11 @@ public class CompRender  {
 
 		glActiveTexture(GL_TEXTURE0);
 		if (this.test_Tex != null) {
-
-			test_Tex.bind(an.getTex(i, anName));
+			an.setTex(anName);
+			test_Tex.bind(an.update(5));
 		}
-		if (i== an.getFrames()-1 && an.isLooping()) {
-			i=0;
+		if (an.isLooping()) {
+
 		}
 		glBindVertexArray(vaoID);
 
@@ -279,16 +282,18 @@ public class CompRender  {
 		glDisableVertexAttribArray(1);
 
 		glBindVertexArray(0);
-		test_Tex.unbind();
+		if (this.test_Tex != null) {
+			test_Tex.unbind();
+		}
 		shader.detach();
 
 	}
 
 
-	public void Update(String msg,Vector2f pos, float scale, Vector4f color) {
+	public void Update(String msg,Vector2f pos, float scale, Vector4f color,int view) {
 
 
-        sdf.RenderText(shader,msg,pos.x,pos.y, scale, color, cam.getProjectionMatrix());
+        sdf.RenderText(shader,msg,pos.x,pos.y, scale, color, cam.getProjectionMatrix(), cam.getViewMatrix(),view);
 
 
 	}

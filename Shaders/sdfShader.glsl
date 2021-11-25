@@ -5,9 +5,18 @@ out vec2 TexCoords;
 
 uniform mat4 projection;
 
+uniform mat4 view;
+uniform int iView;
 void main()
 {
+    if(iView==1) {
+
+    gl_Position = projection*view * vec4(vertex.xy, -5, 1.0);
+    }
+    else {
     gl_Position = projection * vec4(vertex.xy, -5, 1.0);
+
+    }
     TexCoords = vertex.zw;
 }
 

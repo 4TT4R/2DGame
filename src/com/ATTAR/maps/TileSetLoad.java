@@ -122,6 +122,7 @@ public class TileSetLoad {
 
     public void fillAsPool() {
         for (int i = 0; i<getWidth().size(); i++){
+            System.out.println(getSolid().get(i));
             AssetsPool.addTile(new Tiles(getAABB().get(i), getTexture().get(i), new Vector2f(getWidth().get(i), getHeight().get(i)), getSolid().get(i), getKilling().get(i), false));
         }
     }

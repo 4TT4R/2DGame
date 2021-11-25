@@ -57,6 +57,7 @@ public class Tiles {
 		this.Texture = tile.getTexture();
 		this.Killing = tile.isKilling();
 		this.Solid = tile.isSolid();
+		System.out.println(isSolid());
 		this.animated = tile.isAnimated();
 	}
 	public Tiles(Vector4f AABB, String Texture,Vector2f size, boolean Solid, boolean Killing, boolean animated) {

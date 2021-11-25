@@ -79,7 +79,7 @@ public class MainMenu extends Scene {
         }
         if (!tileSetLoad.isTileLoaded()) {
 
-            fontRender.Update("Loading", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1));
+            fontRender.Update("Loading", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1),0);
         }
         if (needFill && tileSetLoad.isTileLoaded()) {
             tileSetLoad.fillAsPool();
@@ -103,15 +103,15 @@ public class MainMenu extends Scene {
                     Buttons.get(i).setSelected(false);
                 }
             }
-            fontRender.Update("Game Name", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1));
-            fontRender.Update("By ATTAR", new Vector2f(300, 50), 0.2f, new Vector4f(0, 1, 0, 1));
+            fontRender.Update("Game Name", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1),0);
+            fontRender.Update("By ATTAR", new Vector2f(300, 50), 0.2f, new Vector4f(0, 1, 0, 1),0);
             message = "";
             for (int i = 0; i < 10; i++) {
 
                 message += (char) (random.nextInt('z' - 'a') + 'a');
             }
 
-            fontRender.Update(message, new Vector2f(300, 300), 0.4f, new Vector4f(0, 1, 0, 1));
+            fontRender.Update(message, new Vector2f(300, 300), 0.4f, new Vector4f(0, 1, 0, 1),0);
         }
     }
 

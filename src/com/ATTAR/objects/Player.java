@@ -12,6 +12,7 @@ public class Player {
 	private CompRender render;
 	public Player(Camera cam) {
 		an = new Animation(true);
+
 		setSize(new Vector2f(38,50));
 		Scale = new Vector3f(1);
 		hp = 3;

@@ -126,6 +126,13 @@ public class Shader {
         beingUsed = false;
     }
 
+    public void uploadBoolean(String varName, boolean bool) {
+        int varLocation = glGetUniformLocation(shaderProgramID, varName);
+        use();
+        FloatBuffer matBuffer = BufferUtils.createFloatBuffer(16);
+        glUniformMatrix4fv(varLocation, false, matBuffer);
+    }
+
     public void uploadMat4f(String varName, Matrix4f mat4) {
         int varLocation = glGetUniformLocation(shaderProgramID, varName);
         use();

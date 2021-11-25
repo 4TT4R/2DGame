@@ -41,7 +41,7 @@ public class Sdf {
 
     }
 
-    public void RenderText(Shader s, String msg, float x, float y, float scale, Vector4f color, Matrix4f projection) {
+    public void RenderText(Shader s, String msg, float x, float y, float scale, Vector4f color, Matrix4f projection, Matrix4f view, int IView) {
 
 
         for (int i = 0; i<msg.length(); i++) {
@@ -74,6 +74,9 @@ public class Sdf {
             s.uploadTexture("uFontTexture", 0);
             s.uploadVec4f("textColor",color);
             s.uploadMat4f("projection", projection);
+            s.uploadMat4f("view", view);
+            s.uploadInt("iView", IView);
+
             glBindVertexArray(VAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);
 

@@ -46,8 +46,8 @@ public class Texture {
 			for (int j = 0; j < TexSize.y / 32; j++) {
 
 				for (int i = 0; i < TexSize.x / 32; i++) {
-					image = ImageF.getSubimage(i*32,j*32,32,ImageF.getHeight());
-					System.out.println(image.getWidth()+"    " +image.getHeight());
+					image = ImageF.getSubimage(i*32,j*32,32,32);
+
 					int[] pixels = new int[image.getWidth() * image.getHeight()];
 					image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
 
@@ -82,9 +82,9 @@ public class Texture {
 					if (byteImage != null) {
 						if (Chanels.get(0) == 4) {
 
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 32, 32, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.getWidth(), image.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 						} else if (Chanels.get(0) == 3) {
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 32, 32, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.getWidth(), image.getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
 						}
 
 					}
