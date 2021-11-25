@@ -43,7 +43,7 @@
  </tile>
  <tile id="4">
   <properties>
-   <property name="Killing" type="bool" value="true"/>
+   <property name="Killing" type="bool" value="false"/>
    <property name="Solid" type="bool" value="true"/>
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Floor_R_Corner.png"/>
