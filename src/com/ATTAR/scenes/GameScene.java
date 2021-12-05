@@ -58,7 +58,7 @@ public class GameScene extends Scene {
 	Camera cam;
 	private Vector2f CamSize, playerTile,default_pos;
 	private LoadMap loadMap;
-	private Sound bgsound;
+	private Sound bgSound;
 	private AABB AABB = new AABB();
 	private Physic physic;
 	Tiles current_tile;
@@ -313,7 +313,7 @@ public class GameScene extends Scene {
 		BlockMap = new HashMap<>();
 		Buttons = new ArrayList<>();
 		AssetsPool.addSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg", true);
-		bgsound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
+		bgSound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
 		cam = new Camera(new Vector2f(0), i);
 		this.CamSize = cam.getSize();
 		keyListener = new KeyListener(win);
@@ -369,9 +369,9 @@ public class GameScene extends Scene {
 
 		else if(!pause) {
 
-			if (!bgsound.isPlaying()) {
-				bgsound.setVolume(8);
-				bgsound.play();
+			if (!bgSound.isPlaying()) {
+				bgSound.setVolume(8);
+				bgSound.play();
 			}
 			physic.update();
 			getCollision();
@@ -421,8 +421,8 @@ public class GameScene extends Scene {
 		else if(pause){
 			fontRender.Update("Pause", new Vector2f(300, 300), 0.4f, new Vector4f(0, 1, 0, 1),0);
 
-			if (bgsound.isPlaying()) {
-				bgsound.pause();
+			if (bgSound.isPlaying()) {
+				bgSound.pause();
 			}
 			buttonListener.update();
 
