@@ -6,7 +6,7 @@ import com.ATTAR.components.CompRender;
 public class Player {
 	private Vector3f Scale;
 	private Vector2f Size;
-	private int hp;
+	private float hp;
 	private Animation an;
 	
 	private CompRender render;
@@ -31,10 +31,10 @@ public class Player {
 		render.setPos(pos);
 		
 	}
-	public void setHp(int HP) {
+	public void setHp(float HP) {
 		this.hp = HP;
 	}
-	public int getHp() {
+	public float getHp() {
 		return this.hp;
 	}
 	public Vector2f getPos() {

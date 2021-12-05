@@ -121,9 +121,18 @@ public class TileSetLoad {
 
 
     public void fillAsPool() {
+        System.out.println(getAABB().size());
+        System.out.println(getTexture().size());
+        System.out.println(getWidth().size());
+        System.out.println(getHeight().size());
+        System.out.println(getSolid().size());
+        System.out.println(getKilling().size());
+
+
         for (int i = 0; i<getWidth().size(); i++){
-            System.out.println(getSolid().get(i));
-            AssetsPool.addTile(new Tiles(getAABB().get(i), getTexture().get(i), new Vector2f(getWidth().get(i), getHeight().get(i)), getSolid().get(i), getKilling().get(i), false));
+
+            AssetsPool.addTile(new Tiles(getAABB().get(i), getTexture().get(i), new Vector2f(getWidth().get(i), getHeight().get(i)),
+                    getSolid().get(i), getKilling().get(i), false));
         }
     }
     public void interpretData () {
@@ -159,7 +168,8 @@ public class TileSetLoad {
                                             addKilling(false);
                                         }
                                     }
-                                    else if (currentLine.split("name=\"")[1].split("\"")[0].equals("Solid")){
+
+                                    if (currentLine.split("name=\"")[1].split("\"")[0].equals("Solid")){
                                         if (currentLine.split("value=\"")[1].split("\"")[0].equals("true")){
                                             addSolid(true);
                                         }
@@ -168,7 +178,8 @@ public class TileSetLoad {
                                             addSolid(false);
                                         }
                                     }
-                                    else if (currentLine.split("name=\"")[1].split("\"")[0].equals("Animated")){
+
+                                    if (currentLine.split("name=\"")[1].split("\"")[0].equals("Animated")){
                                         if (currentLine.split("value=\"")[1].split("\"")[0].equals("true")){
                                             addAnimated(true);
                                         }
@@ -177,9 +188,10 @@ public class TileSetLoad {
                                             addAnimated(false);
                                         }
                                     }
+
                                 }
                                 if (currentLine.trim().startsWith("<object id")) {
-                                    addAABB(new Vector4f(Float.parseFloat(currentLine.split("x=\"")[1].split("\"")[0]), Float.parseFloat(currentLine.split("y=\"")[1].split("\"")[0]), Float.parseFloat(currentLine.split("width=\"")[1].split("\"")[0]), Float.parseFloat(currentLine.split("height=\"")[1].split("\"")[0])));
+                                    addAABB(new Vector4f(Float.parseFloat(currentLine.split("x=\"")[1].split("\"")[0]),32-Float.parseFloat(currentLine.split("y=\"")[1].split("\"")[0])-Float.parseFloat(currentLine.split("height=\"")[1].split("\"")[0]), Float.parseFloat(currentLine.split("width=\"")[1].split("\"")[0]), Float.parseFloat(currentLine.split("height=\"")[1].split("\"")[0])));
                                 }
                                 i++;
                                 currentLine = getTileSetData()[i];

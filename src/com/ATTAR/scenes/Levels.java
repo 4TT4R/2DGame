@@ -23,14 +23,14 @@ public class Levels extends Scene {
             @Override
             public void function() {
 
-                scmg.switchScene("game", "TestingMap");
+                scmg.switchScene("game", "Map");
             }
         });
         Buttons.add(Lvl2 = new Button(cam,new Vector2f(200,100),new Vector2f(500,160),win){
             @Override
             public void function() {
-                System.out.println("loading idk2");
-                scmg.switchScene("game", "TestingMap");
+
+                scmg.switchScene("game", "Map");
             }
         });
         buttonListener = new ButtonListener(win, new Vector2i(1,2));

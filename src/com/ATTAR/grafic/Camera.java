@@ -27,7 +27,8 @@ public class Camera {
         this.position = position;
         if (i<4){
 
-            this.size = new Vector2f(1280,720);
+            this.size = new Vector2f(1920,1080
+            );
         }
         else {
             this.size = new Vector2f(1024, 768);

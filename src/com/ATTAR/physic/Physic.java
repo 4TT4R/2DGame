@@ -18,9 +18,10 @@ public class Physic {
         return gVector;
     }
     public void update() {
+        if (gVector>-28){
 
-
-        gVector-=(float) (FrameLimiter.secsPerFrame * g);
+            gVector-=(float) (FrameLimiter.secsPerFrame * g);
+        }
 
     }
     public float GravityVector() {
