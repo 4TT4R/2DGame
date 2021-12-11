@@ -16,7 +16,7 @@ public class AABB {
 
     public boolean isAabbXCollision(Vector2f e_pos, Vector2f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
     {
-     
+        /**left collision beginning**/
         if(e_pos.x+leftside >= t_pos.x+t_size.z) {
 
 
@@ -24,10 +24,13 @@ public class AABB {
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
 
                     setCorrectPos(new Vector2f(t_pos.x+e_size.x+0.5f, e_pos.y));
+
                     return true;
                 }
             }
         }
+        /**left collision end**/
+        /**right side collision beginning**/
         if(e_pos.x+ e_size.x <= t_pos.x) {
 
             if (e_pos.x+ e_size.x+e_vector.x > t_pos.x) {
@@ -40,6 +43,7 @@ public class AABB {
                 }
             }
         }
+        /**right collision end**/
         return false;
     }
 

@@ -108,7 +108,7 @@ public class LoadMap {
 
                             String[] ss = currentLine.split(",");
 
-                            for (int j = 0; j < ss.length-1; j++ ) {
+                            for (int j = 0; j < ss.length; j++ ) {
                                 if (ss[j].contains("0") || ss[j].contains("1") || ss[j].contains("2") || ss[j].contains("3") || ss[j].contains("4") || ss[j].contains("5") || ss[j].contains("6") || ss[j].contains("7") || ss[j].contains("8") || ss[j].contains("9")) {
 
                                     if (Integer.parseInt(ss[j].trim()) != 0) {

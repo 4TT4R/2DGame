@@ -84,12 +84,17 @@ public class GameScene extends Scene {
 					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp()>=2) {
-					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
-					current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
+				if(!current_tile.isTriger()){
 
-						if (!AABB.isAabbXCollision(player.getPos(),
+					PM.collideX = true;
+					player.setPos(AABB.getCorrectPos());
+				}
+
+				if (current_tile.isKilling("Killing_R") && player.getHp()>=2) {
+					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
+						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
+
+						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
@@ -101,7 +106,6 @@ public class GameScene extends Scene {
 					}
 
 				}
-				PM.collideX = true;
 
 			}
 		}
@@ -111,11 +115,14 @@ public class GameScene extends Scene {
 					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp()>=2) {
+				if(!current_tile.isTriger()){
+
+			player.setPos(AABB.getCorrectPos());
+				}
+				if (current_tile.isKilling("Killing_R") && player.getHp()>=2) {
 					if (BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
 						current_tile =BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
-						if (!AABB.isAabbXCollision(player.getPos(), new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
+						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(), new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
 
 							player.setHp(0);
 
@@ -138,11 +145,15 @@ public class GameScene extends Scene {
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
 
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp() >= 2) {
+				if(!current_tile.isTriger()){
+
+					PM.collideX = true;
+					player.setPos(AABB.getCorrectPos());
+				}
+				if (current_tile.isKilling("Killing_L") && player.getHp() >= 2) {
 					if (BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1));
-						if (!AABB.isAabbXCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
@@ -152,7 +163,6 @@ public class GameScene extends Scene {
 					else {
 						player.setHp(0);
 					}
-					PM.collideX = true;
 				}
 			}
 		}
@@ -163,11 +173,16 @@ public class GameScene extends Scene {
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp()>=2) {
+					if(!current_tile.isTriger()){
+
+						PM.collideX = true;
+						player.setPos(AABB.getCorrectPos());
+					}
+
+				if (current_tile.isKilling("Killing_L") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
-						if (!AABB.isAabbXCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
@@ -180,7 +195,6 @@ public class GameScene extends Scene {
 						player.setHp(0);
 					}
 				}
-				PM.collideX = true;
 			}
 
 		}
@@ -192,11 +206,15 @@ public class GameScene extends Scene {
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp()>=2) {
+				if(!current_tile.isTriger()){
+
+					physic.collidingY = true;
+					player.setPos(AABB.getCorrectPos());
+				}
+				if (current_tile.isKilling("Killing_B") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
-						if (!AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -208,7 +226,6 @@ public class GameScene extends Scene {
 
 					}
 				}
-				physic.collidingY = true;
 
 			}
 
@@ -219,11 +236,15 @@ public class GameScene extends Scene {
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp()>=2) {
+				if(!current_tile.isTriger()){
+
+					physic.collidingY = true;
+					player.setPos(AABB.getCorrectPos());
+				}
+				if (current_tile.isKilling("Killing_B") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
-						if (!AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -234,7 +255,6 @@ public class GameScene extends Scene {
 						player.setHp(0);
 					}
 				}
-				physic.collidingY = true;
 
 
 			}
@@ -248,12 +268,20 @@ public class GameScene extends Scene {
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
-				player.setPos(AABB.getCorrectPos());
-				if (current_tile.isKilling() && player.getHp()>=2) {
+				if(!current_tile.isTriger()){
+
+					physic.collidingY = true;
+					PM.can_jump =true;
+					player.setPos(AABB.getCorrectPos());
+				}
+				else {
+					System.out.println(current_tile.getType());
+				}
+				if (current_tile.isKilling("Killing_T") && player.getHp()>=2) {
 
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
-						if (!AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -266,8 +294,6 @@ public class GameScene extends Scene {
 						player.setHp(0);
 					}
 				}
-				physic.collidingY = true;
-				PM.can_jump =true;
 
 			}
 
@@ -278,13 +304,21 @@ public class GameScene extends Scene {
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
-				player.setPos(AABB.getCorrectPos());
+				if(!current_tile.isTriger()){
 
-				physic.collidingY = true;
-				if (current_tile.isKilling() && player.getHp()>=2) {
+					PM.can_jump =true;
+					PM.collideY = true;
+					physic.collidingY = true;
+					player.setPos(AABB.getCorrectPos());
+				}
+				else {
+					System.out.println(current_tile.getType());
+				}
+
+				if (current_tile.isKilling("Killing_T") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
-						if (!AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -297,8 +331,6 @@ public class GameScene extends Scene {
 						player.setHp(0);
 					}
 				}
-				PM.can_jump =true;
-				PM.collideY = true;
 			}
 
 		}
@@ -320,7 +352,7 @@ public class GameScene extends Scene {
 		player = new Player(cam);
 		default_pos= new Vector2f(100);
 		player.setPos(default_pos);
-		loadMap = new LoadMap(MapName+".txm");
+		loadMap = new LoadMap(MapName+".xml");
 		PM = new PlayerMovement(win, player.getPos());
 		pause = false;
 		sdf = new Sdf();
@@ -448,15 +480,6 @@ public class GameScene extends Scene {
 
 		}
 
-	}
-	public void SetPlayerPos(Vector2f pos) {
-
-			player.setPos(pos);
-
-	}
-
-	public Vector2f GetPlayerPos() {
-		return player.getPos();
 	}
 
 }
