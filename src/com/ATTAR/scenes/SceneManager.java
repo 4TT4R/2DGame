@@ -26,7 +26,7 @@ public class SceneManager {
         if (scene.equals("game")) {
             this.scene = null;
 
-            this.scene = new GameScene(SceneSize, MapName, win, i, this);
+            this.scene = new GameScene(MapName, win, i, this);
 
         }
         else if (scene.equals("menu")) {
@@ -35,11 +35,7 @@ public class SceneManager {
 
 
         }
-        else if (scene.equals("levels")) {
-            this.scene = null;
-            this.scene = new Levels(SceneSize, win, this, i);
 
-        }
     }
     public void update(double dt) {
         if (scene != null) {

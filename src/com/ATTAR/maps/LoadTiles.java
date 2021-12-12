@@ -35,7 +35,7 @@ public class LoadTiles {
             Vector2f pos = (Vector2f) BlockPos.toArray()[i];
 
             BlockMap.put(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
-        };
+        }
         return BlockMap;
     }
 

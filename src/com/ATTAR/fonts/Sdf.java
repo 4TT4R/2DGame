@@ -108,7 +108,7 @@ public class Sdf {
         FT_Set_Pixel_Sizes(face.getPointer(), 0, Font_Size);
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        for (char c = 0; (int)c < 128; c++) {
+        for (char c = 0; (int)c < 256; c++) {
 
             if (FT_Load_Char(face.getPointer(), c, FT_LOAD_RENDER)) {
                 System.out.println("FreeType could not generate character.");

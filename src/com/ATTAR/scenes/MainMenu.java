@@ -36,7 +36,7 @@ public class MainMenu extends Scene {
     private Sdf sdf;
     private boolean needload, needFill;
     Random random = new Random();
-    String message;
+
     public MainMenu(long win, SceneManager scmg, int i) {
         needload = true;
         needFill = true;
@@ -46,7 +46,7 @@ public class MainMenu extends Scene {
         sdf = new Sdf();
         cam = new Camera(new Vector2f(0), i);
 //        sdf.generateBitmap("./Assets/Fonts/press-start.ttf", 128);
-        sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 128);
+        sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 1024);
         sdfShader = new Shader("./Shaders/sdfShader.glsl");
 
         fontRender = new CompRender();
@@ -57,8 +57,9 @@ public class MainMenu extends Scene {
         Buttons.add(Start = new Button(cam,new Vector2f(200,100),new Vector2f(50,160), win){
             @Override
             public void function() {
+                fontRender.Update("Loading...", new Vector2f(300, 185), 0.0875f, new Vector4f(0, 1, 0, 1),0);
 
-                scmg.switchScene("levels", null);
+                scmg.switchScene("game", "Map");
             }
         });
         Buttons.add(Quit = new Button(cam,new Vector2f(200,100),new Vector2f(50,50), win){
@@ -79,8 +80,7 @@ public class MainMenu extends Scene {
         }
         if (!tileSetLoad.isTileLoaded()) {
 
-            fontRender.Update("Loading", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1),0);
-        }
+         }
         if (needFill && tileSetLoad.isTileLoaded()) {
             tileSetLoad.fillAsPool();
             needFill = false;
@@ -103,15 +103,11 @@ public class MainMenu extends Scene {
                     Buttons.get(i).setSelected(false);
                 }
             }
-            fontRender.Update("Game Name", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1),0);
-            fontRender.Update("By ATTAR", new Vector2f(300, 50), 0.2f, new Vector4f(0, 1, 0, 1),0);
-            message = "";
-            for (int i = 0; i < 10; i++) {
+            fontRender.Update("Game Name", new Vector2f(300, 400), 0.05f, new Vector4f(0, 1, 0, 1),0);
+            fontRender.Update("By ATTAR", new Vector2f(300, 50), 0.025f, new Vector4f(0, 1, 0, 1),0);
+            fontRender.Update("Play", new Vector2f(60, 185), 0.09375f, new Vector4f(0, 1, 0, 1),0);
+            fontRender.Update("Exit", new Vector2f(60, 70), 0.09375f, new Vector4f(0, 1, 0, 1),0);
 
-                message += (char) (random.nextInt('z' - 'a') + 'a');
-            }
-
-            fontRender.Update(message, new Vector2f(300, 300), 0.4f, new Vector4f(0, 1, 0, 1),0);
         }
     }
 

@@ -1,74 +1,56 @@
 package com.ATTAR.scenes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
-import java.util.List;
-import java.util.Set;
 
 
 import com.ATTAR.Sound.Sound;
 import com.ATTAR.components.CompRender;
 import com.ATTAR.defaultes.*;
 import com.ATTAR.fonts.Sdf;
-import com.ATTAR.grafic.Shader;
-
+import com.ATTAR.grafic.*;
 import com.ATTAR.maps.*;
+import com.ATTAR.physic.*;
 
-
-import com.ATTAR.physic.AABB;
-import com.ATTAR.physic.Physic;
 import org.joml.*;
-
-import com.ATTAR.grafic.Camera;
 import com.ATTAR.objects.*;
-
 import static org.lwjgl.glfw.GLFW.*;
 
 public class GameScene extends Scene {
 
 
 
-
-
+	private double repair_time = 4d;
+	private double destroi_time = 0.25d;
+	private List<Integer> toRemove = new ArrayList<>();
+	private List<Integer> toRemoveCh = new ArrayList<>();
 	private Player player;
-
-
-
-
-
-
-	private HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
-
-
-
-	private boolean isLoaded = false;
-
-
+	private HashMap<Vector2f, Tiles> BlockMap;
+	private boolean isLoaded;
 	private PlayerMovement PM;
 	private boolean pause,respawn;
 	private Shader sdfShader;
 	private Button Start, Quit;
 	private CompRender fontRender;
 	private ButtonListener buttonListener;
-	private List<Button> Buttons = new ArrayList<>();
+	private List<Button> Buttons;
 	private Sdf sdf;
-
 	private KeyListener keyListener;
-	Camera cam;
-	private Vector2f CamSize, playerTile,default_pos, under_tile_key;
+	private Camera cam;
+	private Vector2f CamSize, default_pos, under_tile_key;
 	private LoadMap loadMap;
 	private Sound bgSound;
 	private AABB AABB = new AABB();
 	private Physic physic;
-	Tiles current_tile, under_tile;
+	private Tiles current_tile, under_tile;
 	public Vector2f getPlayerTileByCenter() {
 		return new Vector2f((int)Math.floor((player.getPos().x+50)/100), (int)Math.floor((player.getPos().y+50)/100));
 	}
-
 	public Vector2f getPlayerTile() {
 		return new Vector2f((int)Math.floor(player.getPos().x/100), (int)Math.floor(player.getPos().y/100));
 	}
+	List<BlockTimer> BlockTimer;
+	List<BlockTimer> ChangeTimer;
 	public void getCollision() {
 		PM.collideX = false;
 		physic.collidingY = false;
@@ -77,7 +59,7 @@ public class GameScene extends Scene {
 			physic.SetGravityVector(PM.GetVector().y);
 			PM.jump = false;
 		}
-		/**left collision beginning**/
+		/*left collision beginning*/
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
 			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
 
@@ -112,13 +94,21 @@ public class GameScene extends Scene {
 					under_tile_key = new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y-1);
 					under_tile = BlockMap.get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Block")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Spike")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+
+						}
 					}
-					else if(current_tile.getType().equals("destroi")) {
-						BlockMap.remove(under_tile_key);
+					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
+
 
 					}
 				}
@@ -153,8 +143,8 @@ public class GameScene extends Scene {
 			}
 
 		}
-		/**left collision end**/
-		/**right collision beginning**/
+		/*left collision end*/
+		/*right collision beginning*/
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
 			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
 			if (AABB.isAabbXCollision(player.getPos(),
@@ -186,13 +176,20 @@ public class GameScene extends Scene {
 					under_tile_key = new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y-1);
 					under_tile = BlockMap.get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Block")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Spike")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
-					else if(current_tile.getType().equals("destroi")) {
-						BlockMap.remove(under_tile_key);
+					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
+
 
 					}
 				}
@@ -232,8 +229,8 @@ public class GameScene extends Scene {
 			}
 
 		}
-		/**right collision end**/
-		/**top collision beginning**/
+		/*right collision end*/
+		/*top collision beginning*/
 		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
 			current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
 			if (AABB.isAabbYCollision(player.getPos(),
@@ -295,14 +292,15 @@ public class GameScene extends Scene {
 			}
 
 		}
-		/**top collision end**/
-		/**bottom collision beginning**/
+		/*top collision end*/
+		/*bottom collision beginning*/
 		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
 			current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
 			if (AABB.isAabbYCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
-					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
+					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100,
+					current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
 				if (current_tile.isKilling("Killing_T") && player.getHp()>=2) {
 
@@ -330,17 +328,25 @@ public class GameScene extends Scene {
 					under_tile_key = new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-2);
 					under_tile = BlockMap.get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Block")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Spike")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
-					else if(current_tile.getType().equals("destroi")) {
-						BlockMap.remove(under_tile_key);
+					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
+
 
 					}
 				}
 			}
+
 
 		}
 		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
@@ -370,7 +376,7 @@ public class GameScene extends Scene {
 				if(!current_tile.isTriger()){
 
 					PM.can_jump =true;
-					PM.collideY = true;
+
 					physic.collidingY = true;
 					player.setPos(AABB.getCorrectPos());
 				}
@@ -378,29 +384,38 @@ public class GameScene extends Scene {
 					under_tile_key = new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-2);
 					under_tile = BlockMap.get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Block")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
-						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+						if (under_tile.getType().equals("Spike")) {
+							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
+							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+						}
 					}
-					else if(current_tile.getType().equals("destroi")) {
-						BlockMap.remove(under_tile_key);
+					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+
+						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
 
 					}
-					else if(current_tile.getType().equals("destroi")) {
-						BlockMap.remove(under_tile_key);
 
-					}
 				}
 			}
 
 		}
-		/**bottom collision end**/
+		/*bottom collision end*/
+		if (!physic.collidingY) {
+
+			PM.can_jump=false;
+		}
 		PM.setPlayerVector(new Vector2f(PM.GetVector().x,physic.GravityVector()));
 
 	}
-	public GameScene(Vector2f CamSize, String MapName, long win, int i, SceneManager scmg) {
-
+	public GameScene(String MapName, long win, int i, SceneManager scmg) {
+		BlockTimer = new ArrayList<>();
+		ChangeTimer = new ArrayList<>();
 		under_tile_key = new Vector2f();
 		isLoaded =false;
 		physic = new Physic();
@@ -418,21 +433,21 @@ public class GameScene extends Scene {
 		PM = new PlayerMovement(win, player.getPos());
 		pause = false;
 		sdf = new Sdf();
-		sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 128);
+		sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 1024);
 		sdfShader = new Shader("./Shaders/sdfShader.glsl");
 		fontRender = new CompRender();
 		fontRender.init(sdfShader, cam, sdf);
 		respawn = false;
 		buttonListener = new ButtonListener(win, new Vector2i(1,2));
 
-		Buttons.add(Start = new Button(cam,new Vector2f(200,100),new Vector2f(50,160), win){
+		Buttons.add(Start = new Button(cam,new Vector2f(500,100),new Vector2f(50,160), win){
 			@Override
 			public void function() {
 
 				pause = false;
 			}
 		});
-		Buttons.add(Quit = new Button(cam,new Vector2f(200,100),new Vector2f(50,50), win){
+		Buttons.add(Quit = new Button(cam,new Vector2f(500,100),new Vector2f(50,50), win){
 			@Override
 			public void function() {
 				scmg.switchScene("menu", null);
@@ -444,24 +459,71 @@ public class GameScene extends Scene {
 
 
 	public void update() {
+
+
 		if (respawn){
+			for (int i = 0; i < BlockTimer.size(); i++) {
+				BlockTimer.get(i).setEnd(true);
+			}
 			player.setPos(default_pos);
 			cam.setCamPos(new Vector2f(0));
 			respawn = false;
 		}
-		if (loadMap.getLoader().isAlive()) {
 
-
-		}
 		else if(!isLoaded){
 
 			BlockMap = LoadTiles.load(loadMap.getMap(), cam);
-
 			isLoaded =true;
 		}
 
 
 		else if(!pause) {
+
+
+			for (int i = 0; i < ChangeTimer.size(); i++) {
+				if (!ChangeTimer.get(i).isChange()) {
+					ChangeTimer.get(i).updateR();
+				}
+				else {
+					BlockTimer.add(new BlockTimer(ChangeTimer.get(i).getKey(), ChangeTimer.get(i).getTile(), repair_time));
+					BlockMap.remove(ChangeTimer.get(i).getKey());
+					toRemoveCh.add(i);
+
+				}
+			}
+
+			for (int i = 0; i < BlockTimer.size(); i++) {
+
+				if (!BlockTimer.get(i).isEnd()) {
+					BlockTimer.get(i).update();
+				}
+				else {
+					if (BlockMap.containsKey(BlockTimer.get(i).getKey())) {
+						BlockMap.replace(BlockTimer.get(i).getKey(), BlockTimer.get(i).getTile());
+					}
+					else {
+						BlockMap.put(BlockTimer.get(i).getKey(), BlockTimer.get(i).getTile());
+
+					}
+					toRemove.add(i);
+
+				}
+
+			}
+			for (int i = toRemoveCh.size()-1; i > -1; i--) {
+				int x = toRemoveCh.get(i);
+
+				ChangeTimer.remove(x);
+
+			}
+			toRemoveCh.clear();
+			for (int i = toRemove.size()-1; i > -1; i--) {
+				int x = toRemove.get(i);
+
+				BlockTimer.remove(x);
+
+			}
+			toRemove.clear();
 
 			if (!bgSound.isPlaying()) {
 				bgSound.setVolume(8);
@@ -513,7 +575,6 @@ public class GameScene extends Scene {
 			}
 		}
 		else if(pause){
-			fontRender.Update("Pause", new Vector2f(300, 300), 0.4f, new Vector4f(0, 1, 0, 1),0);
 
 			if (bgSound.isPlaying()) {
 				bgSound.pause();
@@ -537,9 +598,9 @@ public class GameScene extends Scene {
 					Buttons.get(i).setSelected(false);
 				}
 			}
-
-			fontRender.Update("Pause", new Vector2f(300, 400), 0.4f, new Vector4f(0, 1, 0, 1),0);
-
+			fontRender.Update("Pause", new Vector2f(600, 500), 0.3f, new Vector4f(0, 1, 0, 1),0);
+			fontRender.Update("Continue", new Vector2f(60, 180), 0.09375f, new Vector4f(0, 1, 0, 1),0);
+			fontRender.Update("Main menu", new Vector2f(60, 70), 0.09375f, new Vector4f(0, 1, 0, 1),0);
 		}
 
 	}
