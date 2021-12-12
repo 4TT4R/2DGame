@@ -18,6 +18,14 @@ public class LoadTiles {
         return tiles;
 
     }
+    public static Tiles replaceTile(Vector2f Pos, Tiles tile, Camera cam) {
+        Tiles tiles = new Tiles(tile,cam);
+        tiles.init();
+        tiles.setScale(new Vector3f(1));
+        tiles.setPos(Pos);
+        return tiles;
+
+    }
 
     public static HashMap<Vector2f, Tiles> load(HashMap<Vector2f, Integer> Map, Camera cam){
         BlockMap = new HashMap<>();

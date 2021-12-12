@@ -166,7 +166,15 @@ public class TileSetLoad {
 
     public void fillAsPool() {
         for (int i = 0; i<getWidth().size(); i++){
+            if(getID().get(i)>-1){
+                if (getType().get(i).equals("Block")){
+                    AssetsPool.addBlock(getID().get(i), i);
+                }
+                else if(getType().get(i).equals("Spike")) {
+                    AssetsPool.addSpike(getID().get(i), i);
 
+                }
+            }
             AssetsPool.addTile(new Tiles(getAABB().get(i), getTexture().get(i), new Vector2f(getWidth().get(i), getHeight().get(i)),
                     getSolid().get(i), getTriger().get(i), getKilling().get(i), getAnimated().get(i), getType().get(i),getFps().get(i), getID().get(i)));
         }

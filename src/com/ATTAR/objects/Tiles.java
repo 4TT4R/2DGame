@@ -34,6 +34,8 @@ public class Tiles {
 	private boolean Solid, animated, triger;
 	private int ID, fps;
 
+	public int getID() {return  ID;}
+
 	public boolean isAnimated() {
 		return animated;
 	}
@@ -66,7 +68,11 @@ public class Tiles {
 		return AABB;
 	}
 
-	public Tiles(Tiles tile, Camera cam) {
+    public Camera getCam() {
+        return cam;
+    }
+
+    public Tiles(Tiles tile, Camera cam) {
 		this.cam = cam;
 		this.AABB = tile.getAABB();
 		this.Texture = tile.getTexture();
@@ -75,6 +81,7 @@ public class Tiles {
 		this.type = tile.getType();
 		this.animated = tile.isAnimated();
 		this.triger = tile.isTriger();
+		this.ID = tile.ID;
 	}
 	public Tiles(Vector4f AABB, String Texture,Vector2f size, boolean Solid, boolean triger,  HashMap<String, Boolean> Killing, boolean animated, String type, int fps, int ID) {
 		this.AABB = AABB;

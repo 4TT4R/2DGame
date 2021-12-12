@@ -56,12 +56,12 @@ public class GameScene extends Scene {
 
 	private KeyListener keyListener;
 	Camera cam;
-	private Vector2f CamSize, playerTile,default_pos;
+	private Vector2f CamSize, playerTile,default_pos, under_tile_key;
 	private LoadMap loadMap;
 	private Sound bgSound;
 	private AABB AABB = new AABB();
 	private Physic physic;
-	Tiles current_tile;
+	Tiles current_tile, under_tile;
 	public Vector2f getPlayerTileByCenter() {
 		return new Vector2f((int)Math.floor((player.getPos().x+50)/100), (int)Math.floor((player.getPos().y+50)/100));
 	}
@@ -80,6 +80,7 @@ public class GameScene extends Scene {
 		/**left collision beginning**/
 		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
 			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
+
 			if (AABB.isAabbXCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
 					current_tile.getPos(),
@@ -89,12 +90,26 @@ public class GameScene extends Scene {
 					PM.collideX = true;
 					player.setPos(AABB.getCorrectPos());
 				}
+				else {
+					under_tile_key = new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y-1);
+					under_tile = BlockMap.get(under_tile_key);
+					if (current_tile.getType().equals("to spike")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("to floor")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("destroi")) {
+						BlockMap.remove(under_tile_key);
+
+					}
+				}
 
 				if (current_tile.isKilling("Killing_R") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
 
-						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_R") && !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
@@ -117,12 +132,15 @@ public class GameScene extends Scene {
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
 				if(!current_tile.isTriger()){
 
-			player.setPos(AABB.getCorrectPos());
+					player.setPos(AABB.getCorrectPos());
+				}
+				else{
+					System.out.println("idk");
 				}
 				if (current_tile.isKilling("Killing_R") && player.getHp()>=2) {
 					if (BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
 						current_tile =BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
-						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(), new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
+						if (current_tile.isKilling("Killing_R") && !AABB.isAabbXCollision(player.getPos(), new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
 
 							player.setHp(0);
 
@@ -150,10 +168,24 @@ public class GameScene extends Scene {
 					PM.collideX = true;
 					player.setPos(AABB.getCorrectPos());
 				}
+				else {
+					under_tile_key = new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y-1);
+					under_tile = BlockMap.get(under_tile_key);
+					if (current_tile.getType().equals("to spike")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("to floor")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("destroi")) {
+						BlockMap.remove(under_tile_key);
+
+					}
+				}
 				if (current_tile.isKilling("Killing_L") && player.getHp() >= 2) {
 					if (BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1));
-						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_L") && !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
@@ -182,7 +214,7 @@ public class GameScene extends Scene {
 				if (current_tile.isKilling("Killing_L") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
-						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_L") && !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
@@ -207,14 +239,15 @@ public class GameScene extends Scene {
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 				if(!current_tile.isTriger()){
-
+					System.out.println("top");
 					physic.collidingY = true;
 					player.setPos(AABB.getCorrectPos());
 				}
+
 				if (current_tile.isKilling("Killing_B") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
-						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_B") && !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -244,7 +277,7 @@ public class GameScene extends Scene {
 				if (current_tile.isKilling("Killing_B") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
-						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_B") && !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -275,13 +308,24 @@ public class GameScene extends Scene {
 					player.setPos(AABB.getCorrectPos());
 				}
 				else {
-					System.out.println(current_tile.getType());
+					under_tile_key = new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-2);
+					under_tile = BlockMap.get(under_tile_key);
+					if (current_tile.getType().equals("to spike")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("to floor")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("destroi")) {
+						BlockMap.remove(under_tile_key);
+
+					}
 				}
 				if (current_tile.isKilling("Killing_T") && player.getHp()>=2) {
 
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
-						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_T") && !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -312,13 +356,28 @@ public class GameScene extends Scene {
 					player.setPos(AABB.getCorrectPos());
 				}
 				else {
-					System.out.println(current_tile.getType());
+					under_tile_key = new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-2);
+					under_tile = BlockMap.get(under_tile_key);
+					if (current_tile.getType().equals("to spike")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("to floor")) {
+						BlockMap.replace(under_tile_key,LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())) , under_tile.getCam()));
+					}
+					else if(current_tile.getType().equals("destroi")) {
+						BlockMap.remove(under_tile_key);
+
+					}
+					else if(current_tile.getType().equals("destroi")) {
+						BlockMap.remove(under_tile_key);
+
+					}
 				}
 
 				if (current_tile.isKilling("Killing_T") && player.getHp()>=2) {
 					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
 						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
-						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
+						if (current_tile.isKilling("Killing_T") && !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -340,6 +399,7 @@ public class GameScene extends Scene {
 	}
 	public GameScene(Vector2f CamSize, String MapName, long win, int i, SceneManager scmg) {
 
+		under_tile_key = new Vector2f();
 		isLoaded =false;
 		physic = new Physic();
 		BlockMap = new HashMap<>();

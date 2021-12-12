@@ -15,6 +15,8 @@ public class AssetsPool {
         return sounds.values();
     }
     private static List<Tiles> Tiles = new ArrayList<>();
+    public static HashMap<Integer, Integer> blocks = new HashMap<>();
+    public static HashMap<Integer, Integer> spikes = new HashMap<>();
     public static HashMap<String, List<Integer>> AnimatedTexture = new HashMap<>();
     public static Tiles getTile(int ID) {
         return Tiles.get(ID);
@@ -34,6 +36,12 @@ public class AssetsPool {
     }
     public static void addTexList(List<Integer> List, String value) {
         AnimatedTexture.put(value, List);
+    }
+    public static void addBlock(Integer key, Integer value) {
+        blocks.put(key, value);
+    }
+    public static void addSpike(Integer key, Integer value) {
+        spikes.put(key, value);
     }
     public static List<Integer> getTexList(String value) {
         return AnimatedTexture.get(value);
