@@ -18,12 +18,14 @@ public class AssetsPool {
     public static HashMap<Integer, Integer> blocks = new HashMap<>();
     public static HashMap<Integer, Integer> spikes = new HashMap<>();
     public static HashMap<String, List<Integer>> AnimatedTexture = new HashMap<>();
+    public static HashMap<String, Integer> FPS = new HashMap<>();
     public static Tiles getTile(int ID) {
         return Tiles.get(ID);
     }
     public static void addTile(Tiles tile){
         Tiles.add(tile);
     }
+    public static int getFPS(String key) {return FPS.get(key);}
     public static Sound getSound(String soundFile) {
         File file = new File(soundFile);
         if (sounds.containsKey(file.getAbsolutePath())) {
@@ -42,6 +44,9 @@ public class AssetsPool {
     }
     public static void addSpike(Integer key, Integer value) {
         spikes.put(key, value);
+    }
+    public static void addFPS(String key, Integer value) {
+        FPS.put(key, value);
     }
     public static List<Integer> getTexList(String value) {
         return AnimatedTexture.get(value);

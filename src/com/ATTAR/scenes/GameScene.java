@@ -22,13 +22,14 @@ public class GameScene extends Scene {
 
 	private double repair_time = 4d;
 	private double destroi_time = 0.25d;
+	private int level = 0;
 	private List<Integer> toRemove = new ArrayList<>();
 	private List<Integer> toRemoveCh = new ArrayList<>();
 	private Player player;
 	private HashMap<Vector2f, Tiles> BlockMap;
 	private boolean isLoaded;
 	private PlayerMovement PM;
-	private boolean pause,respawn;
+	private boolean pause, respawn, can_move, next_level;
 	private Shader sdfShader;
 	private Button Start, Quit;
 	private CompRender fontRender;
@@ -49,6 +50,7 @@ public class GameScene extends Scene {
 	public Vector2f getPlayerTile() {
 		return new Vector2f((int)Math.floor(player.getPos().x/100), (int)Math.floor(player.getPos().y/100));
 	}
+	private double timer;
 	List<BlockTimer> BlockTimer;
 	List<BlockTimer> ChangeTimer;
 	public void getCollision() {
@@ -169,6 +171,10 @@ public class GameScene extends Scene {
 				}
 				if(!current_tile.isTriger()){
 
+					if (current_tile.getType().equals("Door_Close")) {
+						can_move = false;
+						next_level = true;
+					}
 					PM.collideX = true;
 					player.setPos(AABB.getCorrectPos());
 				}
@@ -221,7 +227,10 @@ public class GameScene extends Scene {
 					}
 				}
 				if(!current_tile.isTriger()){
-
+					if (current_tile.getType().equals("Door_Close")) {
+						can_move = false;
+						next_level = true;
+					}
 					PM.collideX = true;
 					player.setPos(AABB.getCorrectPos());
 				}
@@ -414,6 +423,9 @@ public class GameScene extends Scene {
 
 	}
 	public GameScene(String MapName, long win, int i, SceneManager scmg) {
+		timer = 0;
+		next_level = false;
+		can_move = true;
 		BlockTimer = new ArrayList<>();
 		ChangeTimer = new ArrayList<>();
 		under_tile_key = new Vector2f();
@@ -427,7 +439,7 @@ public class GameScene extends Scene {
 		this.CamSize = cam.getSize();
 		keyListener = new KeyListener(win);
 		player = new Player(cam);
-		default_pos= new Vector2f(100);
+		default_pos= new Vector2f(100,115);
 		player.setPos(default_pos);
 		loadMap = new LoadMap(MapName+".xml");
 		PM = new PlayerMovement(win, player.getPos());
@@ -466,7 +478,16 @@ public class GameScene extends Scene {
 				BlockTimer.get(i).setEnd(true);
 			}
 			player.setPos(default_pos);
-			cam.setCamPos(new Vector2f(0));
+			if (cam.getCamPos().x !=0) {
+
+				cam.setCamPos(new Vector2f(0, cam.getCamPos().y));
+			}
+			if (cam.getCamPos().y!=0){
+
+				cam.setCamPos(new Vector2f(cam.getCamPos().x,0));
+
+			}
+			level = 0;
 			respawn = false;
 		}
 
@@ -479,7 +500,23 @@ public class GameScene extends Scene {
 
 		else if(!pause) {
 
+			if (player.getPos().y<-400) {
+				player.setHp(0);
+				player.setPos(new Vector2f(player.getPos().x, -390));
+			}
+			if (next_level) {
+				if (timer<1) {
+					timer+=1d/60d;
+				}
+				else {
+					timer = 0;
+					next_level = false;
+					level++;
+					can_move = true;
+					player.setPos(new Vector2f(default_pos.x, 2500*level+10));
+				}
 
+			}
 			for (int i = 0; i < ChangeTimer.size(); i++) {
 				if (!ChangeTimer.get(i).isChange()) {
 					ChangeTimer.get(i).updateR();
@@ -537,7 +574,10 @@ public class GameScene extends Scene {
 				physic.SetGravityVector(0);
 
 			}
-
+			if (!can_move) {
+				PM.collideX = true;
+				PM.can_jump = false;
+			}
 			player.setPos(new Vector2f(player.getPos().x+PM.GetVector().x, player.getPos().y+physic.getGravityVector()));
 
 
@@ -548,9 +588,16 @@ public class GameScene extends Scene {
 			if (player.getPos().x - (CamSize.x / 2) + (player.getScale().x * 50) > 0) {
 				cam.setCamPos(new Vector2f(player.getPos().x - (CamSize.x / 2) + (player.getScale().x * 50), cam.getCamPos().y));
 			}
+			else {
+				cam.setCamPos(new Vector2f(0,cam.getCamPos().y));
+			}
 			if (player.getPos().y - (CamSize.y / 2) + (player.getScale().y * 50) > 0) {
 				cam.setCamPos(new Vector2f(cam.getCamPos().x, player.getPos().y - (CamSize.y / 2) + (player.getScale().y * 50)));
 
+			}
+
+			else {
+				cam.setCamPos(new Vector2f(cam.getCamPos().x,0));
 			}
 			for (int i = Math.round((cam.getCamPos().x - 200) / 100); i < (Math.round((cam.getCamPos().x + (CamSize.x + 300)) / 100)); i++) {
 

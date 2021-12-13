@@ -2,6 +2,7 @@ package com.ATTAR.objects;
 
 import java.util.HashMap;
 
+import com.ATTAR.defaultes.AssetsPool;
 import com.ATTAR.grafic.*;
 import org.joml.*;
 
@@ -13,7 +14,7 @@ public class Tiles {
 	private Camera cam;
 	private Vector3f Scale;
 	private Vector2f Size;
-
+	private Animation an;
 	private CompRender render;
 	private HashMap<String, Boolean> properties = new HashMap<>();
     private HashMap<String, Boolean> Killing = new HashMap<>();
@@ -31,8 +32,12 @@ public class Tiles {
 	}
 	private Vector4f AABB;
 	private String Texture, type;
-	private boolean Solid, animated, triger;
+	private boolean Solid, animated, triger, startAn;
 	private int ID, fps;
+
+	public void setStartAn(boolean startAn) {
+		this.startAn = startAn;
+	}
 
 	public int getID() {return  ID;}
 
@@ -77,12 +82,17 @@ public class Tiles {
 		this.AABB = tile.getAABB();
 		this.Texture = tile.getTexture();
 		this.Killing = tile.getKilling();
+
 		this.Solid = tile.isSolid();
 		this.type = tile.getType();
 		this.animated = tile.isAnimated();
 		this.triger = tile.isTriger();
 		this.ID = tile.ID;
+		startAn =true;
+		an = new Animation(false);
+
 	}
+
 	public Tiles(Vector4f AABB, String Texture,Vector2f size, boolean Solid, boolean triger,  HashMap<String, Boolean> Killing, boolean animated, String type, int fps, int ID) {
 		this.AABB = AABB;
 		this.Texture = Texture;
@@ -93,6 +103,8 @@ public class Tiles {
 		this.triger = triger;
 		this.ID = ID;
 		this.fps = fps;
+		AssetsPool.addFPS(getTexture(),fps);
+
 	}
 	private Shader shader = new Shader("Shaders/Default.glsl");
 	public void init(){
@@ -104,7 +116,15 @@ public class Tiles {
 	}
 	
 	public void update() {
-		render.Update(Scale);
+		if (!animated){
+			render.Update(Scale);
+		}
+		if (animated && startAn) {
+			render.Update(an,getTexture().replace(".png", ""), Scale, AssetsPool.getFPS(getTexture()));
+		}
+		else if(animated && !startAn) {
+			render.Update(Scale);
+		}
 	}
 	
 	public void setPos(Vector2f pos) {

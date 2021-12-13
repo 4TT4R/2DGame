@@ -42,6 +42,10 @@ public class Animation {
         }
         if (i%Math.ceil(60/framePerSec) == 0 && i<60) {
             frame = (int) (i/Math.ceil(60/framePerSec));
+            if (frame>=TexList.size()){
+                frame= TexList.size()-1;
+            }
+
             return TexList.get(frame);
         }
         return TexList.get(frame);

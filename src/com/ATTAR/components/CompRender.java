@@ -252,7 +252,7 @@ public class CompRender  {
 		shader.detach();
 
 	}
-	public void Update(Animation an, String anName, Vector3f scale) {
+	public void Update(Animation an, String anName, Vector3f scale, int fps) {
 		i++;
 		shader.use();
 		shader.uploadTexture("TexSampler", 0);
@@ -266,11 +266,9 @@ public class CompRender  {
 		glActiveTexture(GL_TEXTURE0);
 		if (this.test_Tex != null) {
 			an.setTex(anName);
-			test_Tex.bind(an.update(5));
+			test_Tex.bind(an.update(fps));
 		}
-		if (an.isLooping()) {
 
-		}
 		glBindVertexArray(vaoID);
 
 		glEnableVertexAttribArray(0);

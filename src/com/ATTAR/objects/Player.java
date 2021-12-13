@@ -23,7 +23,7 @@ public class Player {
 
 	
 	public void update() {
-		render.Update(an,"Player", Scale);
+		render.Update(an,"Player", Scale, 5);
 
 		
 	}
