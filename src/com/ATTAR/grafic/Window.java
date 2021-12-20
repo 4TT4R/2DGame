@@ -90,8 +90,11 @@ public class Window {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		while(!glfwWindowShouldClose(win)) {
+			if (glfwWindowShouldClose(win)){
+				break;
+			}
 			if (Startloop >=1) {
-				System.out.println(Math.round(fps/Startloop));
+//				System.out.println(Math.round(fps/Startloop));
 
 				Startloop = 0;
 				fps = 0;
@@ -114,11 +117,15 @@ public class Window {
 
 				fps++;
 				glfwSwapBuffers(win);
+				if (glfwWindowShouldClose(win)){
+					break;
+				}
 			}
 //			swap buffers
 
 			
 		}
+//		System.out.println("Shuting down");
 		alcDestroyContext(audioContext);
 		alcCloseDevice(audioDevice);
 

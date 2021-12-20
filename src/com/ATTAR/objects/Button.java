@@ -63,6 +63,6 @@ public class Button {
         this.color = color;
     }
     public void function() {
-        System.out.println("This button doesn't have function");
+//        System.out.println("This button doesn't have function");
     }
 }

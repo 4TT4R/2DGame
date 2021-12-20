@@ -41,10 +41,6 @@ public class Settings {
         comboResolutions.addItem("1280×720");
         comboResolutions.addItem("1920×1080");
 
-        comboResolutions.addItem("800×600");
-        comboResolutions.addItem("960×720");
-        comboResolutions.addItem("1024×768");
-        comboResolutions.addItem("1280×960");
 
         panel.add(play);
         panel.add(exit);

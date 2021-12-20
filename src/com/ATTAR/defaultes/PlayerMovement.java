@@ -20,7 +20,7 @@ public class PlayerMovement {
     public PlayerMovement(long win, Vector2f PlayerPos) {
         this.win = win;
         can_jump = false;
-        jump_power = 25;
+        jump_power = 10;
         jump = false;
         listener = new KeyListener(win);
         DefaultPlayerSpeed = 10f;
@@ -43,17 +43,21 @@ public class PlayerMovement {
 
             if (listener.isPressed(GLFW_KEY_W) || listener.isPressed(GLFW_KEY_UP) ){
                 if (can_jump) {
+                    jump_power = 10;
                     jump = true;
                     PlayerVector = new Vector2f(PlayerVector.x, jump_power);
                     can_jump= false;
                 }
             }
-//            else if (listener.isPressed(GLFW_KEY_S) || listener.isPressed(GLFW_KEY_DOWN) ){
-//                if (!run.isPlaying()) {
-//                    run.play();
-//                }
-//                PlayerVector = new Vector2f(PlayerVector.x, PlayerSpeed*(-1));
-//            }
+            if (listener.isPressed(GLFW_KEY_SPACE) ){
+                if (can_jump) {
+                    jump_power = 17;
+                    jump = true;
+                    PlayerVector = new Vector2f(PlayerVector.x, jump_power);
+                    can_jump= false;
+                }
+            }
+
             else{
                 PlayerVector = new Vector2f(PlayerVector.x, 0);
             }

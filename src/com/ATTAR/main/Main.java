@@ -15,6 +15,7 @@ public class Main {
 			throw new IllegalStateException("glfw initialization fail");
 		}
 		Settings settings = new Settings();
+
 	}
 	public static void createWindow(boolean fullscrean, int x, int y, JFrame frame, int i) {
 		Window window = new Window("Game Name", new Vector2i(x,y), fullscrean, i);

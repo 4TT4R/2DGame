@@ -54,25 +54,7 @@ public class ButtonListener {
             }
         }
 
-        else if (keyListener.isPressedOnce(GLFW_KEY_RIGHT)){
 
-            if (ButtonId + buttons.y <= buttons.x * buttons.y){
-                ButtonId += buttons.y;
-            }
-            else {
-                ButtonId -= buttons.y * (buttons.x - 1);
-            }
-
-        }
-
-        else if (keyListener.isPressedOnce(GLFW_KEY_LEFT)){
-            if (ButtonId - buttons.y >= 0){
-                ButtonId -= buttons.y;
-            }
-            else {
-                ButtonId += buttons.y * (buttons.x - 1);
-            }
-        }
 
 
     }

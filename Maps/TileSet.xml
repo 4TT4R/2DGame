@@ -1,5 +1,5 @@
-
-<tileset version="1.5" tiledversion="1.7.0" name="TileSet" tilewidth="32" tileheight="32" tilecount="64" columns="0">
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.5" name="TileSet" tilewidth="32" tileheight="32" tilecount="68" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" type="Block">
   <properties>
@@ -608,7 +608,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="38" type="Spike">
@@ -624,7 +624,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_1.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="39" type="Spike">
@@ -640,7 +640,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_2.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="40" type="Spike">
@@ -656,7 +656,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_3.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="41" type="Spike">
@@ -672,7 +672,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_4.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="2" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="42" type="Spike">
@@ -688,7 +688,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_5.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="43" type="Spike">
@@ -704,7 +704,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_6.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="44" type="Spike">
@@ -720,7 +720,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_7.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="1" width="31" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="45" type="Spike">
@@ -736,7 +736,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_8.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="0" width="31" height="32"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="46" type="Spike">
@@ -752,7 +752,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_9.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="0" width="31" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="47" type="Spike">
@@ -768,7 +768,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_10.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="31" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="48" type="Spike">
@@ -784,7 +784,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_11.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="31" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="49" type="Spike">
@@ -800,7 +800,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_12.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="0" width="31" height="32"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="50" type="Spike">
@@ -816,7 +816,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_13.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="0" width="30" height="32"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="51" type="Spike">
@@ -832,7 +832,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_14.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="1" width="32" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="52" type="Spike">
@@ -848,7 +848,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_15.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="1" width="30" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="53" type="Spike">
@@ -864,7 +864,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_16.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="1" y="0" width="30" height="31"/>
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="54" type="Spike">
@@ -880,7 +880,7 @@
   </properties>
   <image width="32" height="32" source="../../Game Textures/Textures/Spike_17.png"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="32" height="31"/>
+   <object id="2" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
  <tile id="55" type="to spike">
@@ -1007,7 +1007,7 @@
    <property name="Solid" type="bool" value="true"/>
    <property name="Triger" type="bool" value="false"/>
   </properties>
-  <image width="32" height="32" source="../../Game Textures/Textures/Door_C.png"/>
+  <image width="32" height="32" source="../../Game Textures/Textures/Door_O.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
@@ -1024,10 +1024,74 @@
    <property name="Solid" type="bool" value="true"/>
    <property name="Triger" type="bool" value="false"/>
   </properties>
-  <image width="32" height="32" source="../../Game Textures/Textures/Door_O.png"/>
+  <image width="32" height="32" source="../../Game Textures/Textures/Door_C.png"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="32" height="32"/>
    <object id="2" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="64" type="Block">
+  <properties>
+   <property name="Animated" type="bool" value="false"/>
+   <property name="ID" type="int" value="-1"/>
+   <property name="Killing_B" type="bool" value="false"/>
+   <property name="Killing_L" type="bool" value="false"/>
+   <property name="Killing_R" type="bool" value="false"/>
+   <property name="Killing_T" type="bool" value="false"/>
+   <property name="Solid" type="bool" value="true"/>
+   <property name="Triger" type="bool" value="false"/>
+  </properties>
+  <image width="32" height="32" source="../../Game Textures/Textures/Floor_42.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="65" type="Block">
+  <properties>
+   <property name="Animated" type="bool" value="false"/>
+   <property name="ID" type="int" value="-1"/>
+   <property name="Killing_B" type="bool" value="false"/>
+   <property name="Killing_L" type="bool" value="false"/>
+   <property name="Killing_R" type="bool" value="false"/>
+   <property name="Killing_T" type="bool" value="false"/>
+   <property name="Solid" type="bool" value="true"/>
+   <property name="Triger" type="bool" value="false"/>
+  </properties>
+  <image width="32" height="32" source="../../Game Textures/Textures/Floor_43.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="66">
+  <properties>
+   <property name="Animated" type="bool" value="false"/>
+   <property name="ID" type="int" value="-1"/>
+   <property name="Killing_B" type="bool" value="false"/>
+   <property name="Killing_L" type="bool" value="false"/>
+   <property name="Killing_R" type="bool" value="false"/>
+   <property name="Killing_T" type="bool" value="false"/>
+   <property name="Solid" type="bool" value="true"/>
+   <property name="Triger" type="bool" value="false"/>
+  </properties>
+  <image width="32" height="32" source="../../Game Textures/Textures/Floor_44.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
+  </objectgroup>
+ </tile>
+ <tile id="67">
+  <properties>
+   <property name="Animated" type="bool" value="false"/>
+   <property name="ID" type="int" value="-1"/>
+   <property name="Killing_B" type="bool" value="false"/>
+   <property name="Killing_L" type="bool" value="false"/>
+   <property name="Killing_R" type="bool" value="false"/>
+   <property name="Killing_T" type="bool" value="false"/>
+   <property name="Solid" type="bool" value="true"/>
+   <property name="Triger" type="bool" value="false"/>
+  </properties>
+  <image width="32" height="32" source="../../Game Textures/Textures/Floor_45.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0" width="32" height="32"/>
   </objectgroup>
  </tile>
 </tileset>

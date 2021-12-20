@@ -1,0 +1,60 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="2DGameEngine:jar">
+    <output-path>$PROJECT_DIR$/classes/artifacts/2DGameEngine_jar</output-path>
+    <root id="archive" name="2DGameEngine.jar">
+      <element id="module-output" name="2DGameEngine" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-glfw.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-openal-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-glfw-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-openal-natives-linux.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-openal-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-openal.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-glfw-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-opengl-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-opengl-natives-linux.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-assimp.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-opengl-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-assimp-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-stb-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/freetype-jni.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-glfw-natives-linux.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-assimp-natives-linux.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-stb-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-stb.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-natives-macos.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-stb-natives-linux.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jbox2d-library.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-assimp-natives-windows.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-opengl.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/lwjgl-natives-linux.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/freetype-jni.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/lib/jbox2d-library.jar" />
+      <element id="library" level="module" name="lwjgl-assimp-natives-linux.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-assimp-natives-macos.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-assimp-natives-windows.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-assimp.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-glfw-natives-linux.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-natives-windows.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-openal-natives-windows.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-natives-macos.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-openal.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-natives-linux.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-opengl-natives-macos.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-openal-natives-macos.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-opengl.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-opengl-natives-windows.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-stb-natives-linux.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-opengl-natives-linux.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-openal-natives-linux.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-glfw.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-stb-natives-macos.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-glfw-natives-windows.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-stb.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-stb-natives-windows.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl.jar" module-name="2DGameEngine" />
+      <element id="library" level="module" name="lwjgl-glfw-natives-macos.jar" module-name="2DGameEngine" />
+    </root>
+  </artifact>
+</component>
