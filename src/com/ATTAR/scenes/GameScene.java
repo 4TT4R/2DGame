@@ -26,7 +26,7 @@ public class GameScene extends Scene {
 	private List<Integer> toRemove = new ArrayList<>();
 	private List<Integer> toRemoveCh = new ArrayList<>();
 	private Player player;
-	private HashMap<Vector2f, Tiles> BlockMap;
+
 	private boolean isLoaded,godMod;
 	private PlayerMovement PM;
 	private boolean pause, respawn, can_move, next_level;
@@ -45,6 +45,7 @@ public class GameScene extends Scene {
 	private Physic physic;
 	private Tiles current_tile, under_tile;
 	private Vector2f Level_floor_ciling;
+	private StopWatch stopWatch;
 	public Vector2f getPlayerTileByCenter() {
 		return new Vector2f((int)Math.floor((player.getPos().x+50)/100), (int)Math.floor((player.getPos().y+50)/100));
 	}
@@ -63,8 +64,8 @@ public class GameScene extends Scene {
 			PM.jump = false;
 		}
 		/*left collision beginning*/
-		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
 
 			if (AABB.isAabbXCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
@@ -73,8 +74,8 @@ public class GameScene extends Scene {
 				
 
 				if (current_tile.isKilling("Killing_R") && player.getHp()>=2 && !godMod) {
-					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
+					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
 
 						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
@@ -95,21 +96,21 @@ public class GameScene extends Scene {
 				}
 				else {
 					under_tile_key = new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y-1);
-					under_tile = BlockMap.get(under_tile_key);
+					under_tile = Collector.getBlockMap().get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
 						if (under_tile.getType().equals("Block")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
 						if (under_tile.getType().equals("Spike")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
 
 						}
 					}
-					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+					else if(current_tile.getType().equals("destroi") && Collector.getBlockMap().containsKey(under_tile_key)) {
 						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
 
 
@@ -118,8 +119,8 @@ public class GameScene extends Scene {
 
 			}
 		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
 			if (AABB.isAabbXCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
 					current_tile.getPos(),
@@ -127,8 +128,8 @@ public class GameScene extends Scene {
 				
 				
 				if (current_tile.isKilling("Killing_R") && player.getHp()>=2 && !godMod) {
-					if (BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
-						current_tile =BlockMap.get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
+					if (Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
+						current_tile =Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
 						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(), new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
 
 							player.setHp(0);
@@ -148,8 +149,8 @@ public class GameScene extends Scene {
 		}
 		/*left collision end*/
 		/*right collision beginning*/
-		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
 			if (AABB.isAabbXCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
 					current_tile.getPos(),
@@ -157,8 +158,8 @@ public class GameScene extends Scene {
 
 
 				if (current_tile.isKilling("Killing_L") && player.getHp() >= 2 && !godMod) {
-					if (BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1));
+					if (Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1));
 						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(),
 								current_tile.getPos(),
@@ -181,20 +182,20 @@ public class GameScene extends Scene {
 				}
 				else {
 					under_tile_key = new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y-1);
-					under_tile = BlockMap.get(under_tile_key);
+					under_tile = Collector.getBlockMap().get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
 						if (under_tile.getType().equals("Block")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
 						if (under_tile.getType().equals("Spike")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
-					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+					else if(current_tile.getType().equals("destroi") && Collector.getBlockMap().containsKey(under_tile_key)) {
 						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
 
 
@@ -202,8 +203,8 @@ public class GameScene extends Scene {
 				}
 			}
 		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1));
 			if (AABB.isAabbXCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
 					current_tile.getPos(),
@@ -212,8 +213,8 @@ public class GameScene extends Scene {
 
 
 				if (current_tile.isKilling("Killing_L") && player.getHp()>=2 && !godMod) {
-					if(BlockMap.containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
+					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
 						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
 								current_tile.getPos(),
@@ -241,8 +242,8 @@ public class GameScene extends Scene {
 		}
 		/*right collision end*/
 		/*top collision beginning*/
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
 			if (AABB.isAabbYCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
@@ -250,8 +251,8 @@ public class GameScene extends Scene {
 
 
 				if (current_tile.isKilling("Killing_B") && player.getHp()>=2 && !godMod) {
-					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
+					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
 						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
@@ -272,16 +273,16 @@ public class GameScene extends Scene {
 			}
 
 		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
 			if (AABB.isAabbYCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
 				if (current_tile.isKilling("Killing_B") && player.getHp()>=2 && !godMod) {
-					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
+					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
 						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
@@ -304,8 +305,8 @@ public class GameScene extends Scene {
 		}
 		/*top collision end*/
 		/*bottom collision beginning*/
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
 			if (AABB.isAabbYCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
@@ -314,8 +315,8 @@ public class GameScene extends Scene {
 
 				if (current_tile.isKilling("Killing_T") && player.getHp()>=2 && !godMod) {
 
-					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
+					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
 						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
@@ -336,20 +337,20 @@ public class GameScene extends Scene {
 				}
 				else {
 					under_tile_key = new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-2);
-					under_tile = BlockMap.get(under_tile_key);
+					under_tile = Collector.getBlockMap().get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
 						if (under_tile.getType().equals("Block")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
 						if (under_tile.getType().equals("Spike")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
-					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+					else if(current_tile.getType().equals("destroi") && Collector.getBlockMap().containsKey(under_tile_key)) {
 						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
 
 
@@ -359,8 +360,8 @@ public class GameScene extends Scene {
 
 
 		}
-		if(BlockMap.containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
-			current_tile = BlockMap.get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
+		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
+			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
 			if (AABB.isAabbYCollision(player.getPos(),
 					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
@@ -368,8 +369,8 @@ public class GameScene extends Scene {
 
 
 				if (current_tile.isKilling("Killing_T") && player.getHp()>=2 && !godMod) {
-					if(BlockMap.containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
-						current_tile = BlockMap.get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
+					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
+						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
 						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
 								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
@@ -392,20 +393,20 @@ public class GameScene extends Scene {
 				}
 				else {
 					under_tile_key = new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-2);
-					under_tile = BlockMap.get(under_tile_key);
+					under_tile = Collector.getBlockMap().get(under_tile_key);
 					if (current_tile.getType().equals("to spike")) {
 						if (under_tile.getType().equals("Block")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.spikes.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
 					else if(current_tile.getType().equals("to floor")) {
 						if (under_tile.getType().equals("Spike")) {
 							BlockTimer.add(new BlockTimer(under_tile_key,under_tile,repair_time));
-							BlockMap.replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
+							Collector.getBlockMap().replace(under_tile_key, LoadTiles.replaceTile(under_tile.getPos(), AssetsPool.getTile(AssetsPool.blocks.get(under_tile.getID())), under_tile.getCam()));
 						}
 					}
-					else if(current_tile.getType().equals("destroi") && BlockMap.containsKey(under_tile_key)) {
+					else if(current_tile.getType().equals("destroi") && Collector.getBlockMap().containsKey(under_tile_key)) {
 
 						ChangeTimer.add(new BlockTimer(under_tile_key,under_tile,destroi_time));
 
@@ -424,16 +425,19 @@ public class GameScene extends Scene {
 
 	}
 	public GameScene(String MapName, long win, int i, SceneManager scmg) {
-		godMod = false;
+		ReadSave.ReadSave();
+		godMod = true;
+		stopWatch = new StopWatch(Collector.getTime());
 		timer = 0;
 		next_level = false;
+		level = Collector.getLevel();
 		can_move = true;
 		BlockTimer = new ArrayList<>();
 		ChangeTimer = new ArrayList<>();
 		under_tile_key = new Vector2f();
 		isLoaded =false;
 		physic = new Physic();
-		BlockMap = new HashMap<>();
+
 		Buttons = new ArrayList<>();
 		AssetsPool.addSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg", true);
 		bgSound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
@@ -442,7 +446,7 @@ public class GameScene extends Scene {
 		keyListener = new KeyListener(win);
 		player = new Player(cam);
 		default_pos= new Vector2f(100,115);
-		player.setPos(default_pos);
+		player.setPos(Collector.getPlayerPos());
 		loadMap = new LoadMap(MapName+".xml");
 		PM = new PlayerMovement(win, player.getPos());
 		pause = false;
@@ -453,7 +457,24 @@ public class GameScene extends Scene {
 		fontRender.init(sdfShader, cam, sdf);
 		respawn = false;
 		buttonListener = new ButtonListener(win, new Vector2i(1,2));
-		Level_floor_ciling = new Vector2f(0,2450);
+
+		if (level == 0){
+
+			Level_floor_ciling = new Vector2f(0,2450);
+			Collector.setCeil(24);
+			Collector.setFloor(0);
+		}
+		else if (level==1){
+
+			Level_floor_ciling = new Vector2f(2500*level-100, 2500*level+2350);
+			Collector.setCeil(25*level+23);
+			Collector.setFloor(25-1);
+		}
+		else{
+			Level_floor_ciling = new Vector2f(2400*level+2400, 2400*level+2350+2500);
+			Collector.setCeil(24*level+23+25);
+			Collector.setFloor(24*level+24);
+		}
 		Buttons.add(Start = new Button(cam,new Vector2f(500,100),new Vector2f(50,160), win){
 			@Override
 			public void function() {
@@ -475,7 +496,14 @@ public class GameScene extends Scene {
 	public void update() {
 
 
-		if (respawn){
+
+
+		if(!isLoaded) {
+
+			LoadTiles.load(loadMap.getMap(), cam);
+			isLoaded =true;
+		}
+		else if (respawn) {
 			for (int i = 0; i < BlockTimer.size(); i++) {
 				BlockTimer.get(i).setEnd(true);
 			}
@@ -490,19 +518,18 @@ public class GameScene extends Scene {
 
 			}
 			Level_floor_ciling = new Vector2f(0,2450);
+			Collector.setCeil(24);
+			Collector.setFloor(0);
+			cam.setCamPos(new Vector2f(10000,0));
+			fontRender.Update("Loading", new Vector2f(10000,500),0.9f,new Vector4f(1),1);
+			isLoaded = false;
 			level = 0;
 			respawn = false;
 		}
 
-		else if(!isLoaded){
-
-			BlockMap = LoadTiles.load(loadMap.getMap(), cam);
-			isLoaded =true;
-		}
-
 
 		else if(!pause) {
-
+			stopWatch.addTime();
 			if (player.getPos().y<Level_floor_ciling.x-400) {
 				player.setHp(0);
 				player.setPos(new Vector2f(player.getPos().x, Level_floor_ciling.x-390));
@@ -516,15 +543,23 @@ public class GameScene extends Scene {
 					next_level = false;
 					level++;
 					can_move = true;
+
+					cam.setCamPos(new Vector2f(10000,0));
+					fontRender.Update("Loading", new Vector2f(10000,500),0.09f,new Vector4f(1),1);
 					if (level==1){
 
-						player.setPos(new Vector2f(default_pos.x, 2500*level));
-						Level_floor_ciling = new Vector2f(2500*level-100, 2500*level+2350);
+						player.setPos(new Vector2f(default_pos.x, 2500*level+10));
+						Level_floor_ciling = new Vector2f(2500*level-100, 2500+2350);
+						Collector.setCeil(25+23);
+						Collector.setFloor(25-1);
+						isLoaded = false;
 					}
 					else{
-						player.setPos(new Vector2f(default_pos.x, 2400*level+2500));
+						player.setPos(new Vector2f(default_pos.x, 2400*level+2500+10));
 						Level_floor_ciling = new Vector2f(2400*level+2400, 2400*level+2350+2500);
-
+						Collector.setCeil(24*level+23+25);
+						Collector.setFloor(24*level+24);
+						isLoaded = false;
 					}
 				}
 
@@ -535,7 +570,7 @@ public class GameScene extends Scene {
 				}
 				else {
 					BlockTimer.add(new BlockTimer(ChangeTimer.get(i).getKey(), ChangeTimer.get(i).getTile(), repair_time));
-					BlockMap.remove(ChangeTimer.get(i).getKey());
+					Collector.getBlockMap().remove(ChangeTimer.get(i).getKey());
 					toRemoveCh.add(i);
 
 				}
@@ -547,11 +582,11 @@ public class GameScene extends Scene {
 					BlockTimer.get(i).update();
 				}
 				else {
-					if (BlockMap.containsKey(BlockTimer.get(i).getKey())) {
-						BlockMap.replace(BlockTimer.get(i).getKey(), BlockTimer.get(i).getTile());
+					if (Collector.getBlockMap().containsKey(BlockTimer.get(i).getKey())) {
+						Collector.getBlockMap().replace(BlockTimer.get(i).getKey(), BlockTimer.get(i).getTile());
 					}
 					else {
-						BlockMap.put(BlockTimer.get(i).getKey(), BlockTimer.get(i).getTile());
+						Collector.getBlockMap().put(BlockTimer.get(i).getKey(), BlockTimer.get(i).getTile());
 
 					}
 					toRemove.add(i);
@@ -590,9 +625,29 @@ public class GameScene extends Scene {
 				PM.collideX = true;
 				PM.can_jump = false;
 			}
+			for (int i = Math.round((cam.getCamPos().x - 200) / 100); i < (Math.round((cam.getCamPos().x + (CamSize.x + 300)) / 100)); i++) {
+
+				for (int j = Math.round((cam.getCamPos().y - 200) / 100); j < (Math.round((cam.getCamPos().y + (CamSize.y + 300)) / 100)); j++) {
+
+					if (Collector.getBlockMap().containsKey(new Vector2f(i, j))) {
+						Collector.getBlockMap().get(new Vector2f(i, j)).update();
+
+					}
+
+				}
+			}
 //			player.setPos(new Vector2f(player.getPos().x+PM.GetVector().x, player.getPos().y+physic.getGravityVector()));
 			player.update(new Vector2f(PM.GetVector().x, physic.getGravityVector()));
 			if (keyListener.isPressedOnce(GLFW_KEY_ESCAPE)){
+				if (player.getHp() <= 1){
+					SaveWriter.WriteSave(new Vector2f(100,100), 0, stopWatch.getTime());
+
+				}
+				else{
+
+					SaveWriter.WriteSave(player.getPos(), level, stopWatch.getTime());
+				}
+
 				pause = true;
 			}
 			if (player.getPos().x - (CamSize.x / 2) + (player.getScale().x * 50) > 0) {
@@ -612,20 +667,11 @@ public class GameScene extends Scene {
 			else if (player.getPos().y + (CamSize.y / 2) + (player.getScale().y * 50) > Level_floor_ciling.y) {
 				cam.setCamPos(new Vector2f(cam.getCamPos().x, Level_floor_ciling.y-cam.getSize().y));
 			}
-			for (int i = Math.round((cam.getCamPos().x - 200) / 100); i < (Math.round((cam.getCamPos().x + (CamSize.x + 300)) / 100)); i++) {
 
-				for (int j = Math.round((cam.getCamPos().y - 200) / 100); j < (Math.round((cam.getCamPos().y + (CamSize.y + 300)) / 100)); j++) {
-
-					if (BlockMap.containsKey(new Vector2f(i, j))) {
-						BlockMap.get(new Vector2f(i, j)).update();
-
-					}
-
-				}
-			}
 
 
 			if (player.getHp() <= 1) {
+				SaveWriter.WriteSave(new Vector2f(100,100), 0, stopWatch.getTime());
 				fontRender.Update("Don't be trash", player.getPos(),0.5f, new Vector4f(1,1,1,1),1);
 				player.setHp(player.getHp() + 1 / 120f);
 			}
@@ -633,6 +679,8 @@ public class GameScene extends Scene {
 				player.setHp(2);
 				respawn = true;
 			}
+			fontRender.Update((int)stopWatch.getTime().x+":"+(int)stopWatch.getTime().y+":"+(int)stopWatch.getTime().z+":"+(int)stopWatch.getTime().w, new Vector2f(cam.getCamPos().x+20, cam.getCamPos().y+cam.getSize().y-60),0.05f, new Vector4f(1), 1);
+
 		}
 		else if(pause){
 

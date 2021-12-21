@@ -1,6 +1,7 @@
 package com.ATTAR.maps;
 
 import com.ATTAR.defaultes.AssetsPool;
+import com.ATTAR.defaultes.Collector;
 import com.ATTAR.objects.Tiles;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -9,7 +10,8 @@ import com.ATTAR.grafic.*;
 import java.util.*;
 public class LoadTiles {
     private static Set<Vector2f> BlockPos;
-    private static HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
+
+
     public static Tiles loadTiles(Vector2f pos, Vector3f scale, Vector2f Scales, int ID, Camera cam) {
         Tiles tiles = new Tiles(AssetsPool.getTile(ID-1),cam);
         tiles.init();
@@ -27,16 +29,21 @@ public class LoadTiles {
 
     }
 
-    public static HashMap<Vector2f, Tiles> load(HashMap<Vector2f, Integer> Map, Camera cam){
-        BlockMap = new HashMap<>();
+    public static void load(HashMap<Vector2f, Integer> Map, Camera cam){
+
         BlockPos = Map.keySet();
-        for (int i = 0; i < BlockPos.size(); i++) {
+
+        Collector.clearBlockMap();
+        for (int i = BlockPos.size()-1; i >=0; i--) {
 
             Vector2f pos = (Vector2f) BlockPos.toArray()[i];
 
-            BlockMap.put(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+            if (((Vector2f) BlockPos.toArray()[i]).y <= (float) Collector.getCeil() && ((Vector2f) BlockPos.toArray()[i]).y >= (float) Collector.getFloor()) {
+
+                Collector.addToBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+            }
         }
-        return BlockMap;
+        
     }
 
 
