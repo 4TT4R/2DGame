@@ -426,7 +426,7 @@ public class GameScene extends Scene {
 	}
 	public GameScene(String MapName, long win, int i, SceneManager scmg) {
 		ReadSave.ReadSave();
-		godMod = true;
+		godMod = false;
 		stopWatch = new StopWatch(Collector.getTime());
 		timer = 0;
 		next_level = false;
@@ -521,7 +521,7 @@ public class GameScene extends Scene {
 			Collector.setCeil(24);
 			Collector.setFloor(0);
 			cam.setCamPos(new Vector2f(10000,0));
-			fontRender.Update("Loading", new Vector2f(10000,500),0.9f,new Vector4f(1),1);
+			fontRender.Update("Loading", new Vector2f(10000,500),0.09f,new Vector4f(1),1);
 			isLoaded = false;
 			level = 0;
 			respawn = false;
@@ -672,7 +672,7 @@ public class GameScene extends Scene {
 
 			if (player.getHp() <= 1) {
 				SaveWriter.WriteSave(new Vector2f(100,100), 0, stopWatch.getTime());
-				fontRender.Update("Don't be trash", player.getPos(),0.5f, new Vector4f(1,1,1,1),1);
+				fontRender.Update("Don't be trash", new Vector2f(cam.getCamPos().x, cam.getCamPos().y+500),0.09f, new Vector4f(1,1,1,1),1);
 				player.setHp(player.getHp() + 1 / 120f);
 			}
 			else if (player.getHp() < 2 && player.getHp()>1){
