@@ -150,7 +150,7 @@ public class CompRender  {
 
 
 		try {
-			test_Tex = new Texture(Tex_path);
+			test_Tex = new Texture("./Assets/Tiles/"+Tex_path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -350,7 +350,7 @@ public class CompRender  {
 		shader.detach();
 
 	}
-	public void Update(Animation an, String anName, Vector3f scale, int fps) {
+	public void Update(Animation an, String anName, Vector3f scale, int fps, int frames) {
 
 		shader.use();
 		shader.uploadTexture("TexSampler", 0);
@@ -364,7 +364,7 @@ public class CompRender  {
 		glActiveTexture(GL_TEXTURE0);
 		if (this.test_Tex != null) {
 			an.setTex(anName);
-			test_Tex.bind(an.update(fps));
+			test_Tex.bind(an.update(fps, frames));
 		}
 
 		glBindVertexArray(vaoID);

@@ -14,13 +14,13 @@ public class AABB {
         return CorrectPos;
     }
 
-    public boolean isAabbXCollision(Vector2f e_pos, Vector2f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
+    public boolean isAabbXCollision(Vector2f e_pos, Vector4f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
     {
         /**left collision beginning**/
-        if(e_pos.x+leftside >= t_pos.x+t_size.z) {
+        if(e_pos.x+e_size.z >= t_pos.x+t_size.z) {
 
 
-            if (e_pos.x+leftside+e_vector.x < t_pos.x+ t_size.z) {
+            if (e_pos.x+e_size.z+e_vector.x < t_pos.x+ t_size.z) {
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
 
                     setCorrectPos(new Vector2f(t_pos.x+e_size.x+0.5f, e_pos.y));
@@ -47,7 +47,7 @@ public class AABB {
         return false;
     }
 
-    public boolean isAabbYCollision(Vector2f e_pos, Vector2f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
+    public boolean isAabbYCollision(Vector2f e_pos, Vector4f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
     {
 
         if (e_pos.y >= t_pos.y+t_size.w) {
@@ -56,7 +56,7 @@ public class AABB {
 
                 if (e_pos.x+leftside+e_vector.x >= t_pos.x && e_pos.x+leftside+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
 
-                    setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.w+0.5f));
+                    setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.w));
 
                     return true;
                 }
@@ -66,7 +66,7 @@ public class AABB {
             if (e_pos.y + e_size.y + e_vector.y> t_pos.y+t_size.y) {
                 if (e_pos.x+leftside+e_vector.x >= t_pos.x && e_pos.x+leftside+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
 
-                    setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.y-e_size.y-0.5f));
+                    setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.y-e_size.y));
 
                     return true;
                 }

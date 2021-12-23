@@ -20,6 +20,26 @@ public class TileSetLoad {
     private List<Vector4f> AABB;
     private List<String> texture, type;
     private boolean TileLoaded = false;
+
+
+    public void clear() {
+
+        TileSetData = new String[0];
+        TileSet = "";
+        loader =new Thread();
+        width.clear();
+        height.clear();
+        Killing.clear();
+        Solid.clear();
+        animated.clear();
+        triger.clear();
+        ID.clear();
+        fps.clear();
+        texture.clear();
+        type.clear();
+        BlockMap.clear();
+        AABB.clear();
+    }
     private HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
     public void addAABB(Vector4f AABB) {
         this.AABB.add(AABB);

@@ -68,7 +68,7 @@ public class GameScene extends Scene {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
 
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
+					player.getSize(),PM.GetVector(),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 				
@@ -78,7 +78,7 @@ public class GameScene extends Scene {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
 
 						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(),
-								new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
+								player.getSize(),PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
 							player.setHp(0);
@@ -122,7 +122,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y+1));
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83),PM.GetVector(),
+					player.getSize(),PM.GetVector(),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
 				
@@ -130,7 +130,7 @@ public class GameScene extends Scene {
 				if (current_tile.isKilling("Killing_R") && player.getHp()>=2 && !godMod) {
 					if (Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y))) {
 						current_tile =Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x-1, getPlayerTile().y));
-						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(), new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
+						if (current_tile.isKilling("Killing_R") || !AABB.isAabbXCollision(player.getPos(), player.getSize(), PM.GetVector(), current_tile.getPos(), new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
 
 							player.setHp(0);
 
@@ -152,7 +152,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
+					player.getSize(), PM.GetVector(),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
 
@@ -161,7 +161,7 @@ public class GameScene extends Scene {
 					if (Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1))) {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x + 1, getPlayerTile().y + 1));
 						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
-								new Vector2f(player.getScale().x * 83, player.getScale().y * 83), PM.GetVector(),
+								player.getSize(), PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x / 32 * 100, current_tile.getAABB().y / 32 * 100, current_tile.getAABB().z / 32 * 100, current_tile.getAABB().w / 32 * 100)) && current_tile.isSolid()) {
 							player.setHp(0);
@@ -206,7 +206,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y+1));
 			if (AABB.isAabbXCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
+					player.getSize(), PM.GetVector(),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
@@ -216,7 +216,7 @@ public class GameScene extends Scene {
 					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y))) {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTileByCenter().x+1, getPlayerTile().y));
 						if (current_tile.isKilling("Killing_L") || !AABB.isAabbXCollision(player.getPos(),
-								new Vector2f(player.getScale().x*83,player.getScale().y*83), PM.GetVector(),
+								player.getSize(), PM.GetVector(),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100)) && current_tile.isSolid()) {
 
@@ -245,7 +245,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
 			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
@@ -254,7 +254,7 @@ public class GameScene extends Scene {
 					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
 						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
-								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+								player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 							player.setHp(0);
@@ -276,7 +276,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y+1));
 			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
@@ -284,7 +284,7 @@ public class GameScene extends Scene {
 					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1))) {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y+1));
 						if (current_tile.isKilling("Killing_B") || !AABB.isAabbYCollision(player.getPos(),
-								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+								player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 							player.setHp(0);
@@ -308,7 +308,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
 			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100,
 					current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
@@ -318,7 +318,7 @@ public class GameScene extends Scene {
 					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
 						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
-								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+								player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 							player.setHp(0);
@@ -363,7 +363,7 @@ public class GameScene extends Scene {
 		if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1))) {
 			current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x+1, getPlayerTileByCenter().y-1));
 			if (AABB.isAabbYCollision(player.getPos(),
-					new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+					player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 					current_tile.getPos(),
 					new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 
@@ -372,7 +372,7 @@ public class GameScene extends Scene {
 					if(Collector.getBlockMap().containsKey(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1))) {
 						current_tile = Collector.getBlockMap().get(new Vector2f(getPlayerTile().x, getPlayerTileByCenter().y-1));
 						if (current_tile.isKilling("Killing_T") || !AABB.isAabbYCollision(player.getPos(),
-								new Vector2f(player.getScale().x*83,player.getScale().y*83), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
+								player.getSize(), new Vector2f(PM.GetVector().x,physic.getGravityVector()),
 								current_tile.getPos(),
 								new Vector4f(current_tile.getAABB().x/32*100, current_tile.getAABB().y/32*100, current_tile.getAABB().z/32*100, current_tile.getAABB().w/32*100))&& current_tile.isSolid()) {
 							player.setHp(0);

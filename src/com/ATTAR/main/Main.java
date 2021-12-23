@@ -17,8 +17,8 @@ public class Main {
 		Settings settings = new Settings();
 
 	}
-	public static void createWindow(boolean fullscrean, int x, int y, JFrame frame, int i) {
-		Window window = new Window("Game Name", new Vector2i(x,y), fullscrean, i);
+	public static void createWindow(boolean fullscreen, int x, int y, JFrame frame, int i) {
+		Window window = new Window("Game Name", new Vector2i(x,y), fullscreen, i);
 		window.update();
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}

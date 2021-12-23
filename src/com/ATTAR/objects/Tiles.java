@@ -111,7 +111,7 @@ public class Tiles {
 		Scale = new Vector3f(1);
 		setSize(new Vector2f(100));
 		render = new CompRender();
-		render.init(shader,"./Assets/Tiles/"+Texture, cam, animated);
+		render.init(shader,Texture, cam, animated);
 
 	}
 	
@@ -120,7 +120,7 @@ public class Tiles {
 			render.Update(Scale);
 		}
 		if (animated && startAn) {
-			render.Update(an,getTexture().replace(".png", ""), Scale, AssetsPool.getFPS(getTexture()));
+			render.Update(an,getTexture().replace(".png", ""), Scale, AssetsPool.getFPS(getTexture()),AssetsPool.getTexList(getTexture().replace(".png","")).size());
 		}
 		else if(animated && !startAn) {
 			render.Update(Scale);

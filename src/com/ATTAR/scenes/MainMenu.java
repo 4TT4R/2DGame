@@ -45,7 +45,7 @@ public class MainMenu extends Scene {
         keyListener = new KeyListener(win);
         sdf = new Sdf();
         cam = new Camera(new Vector2f(0), i);
-//        sdf.generateBitmap("./Assets/Fonts/press-start.ttf", 128);
+
         sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 1024);
         sdfShader = new Shader("./Shaders/sdfShader.glsl");
 
@@ -78,12 +78,11 @@ public class MainMenu extends Scene {
             tileSetLoad.interpretData();
             needload =false;
         }
-        if (!tileSetLoad.isTileLoaded()) {
 
-         }
         if (needFill && tileSetLoad.isTileLoaded()) {
             tileSetLoad.fillAsPool();
             needFill = false;
+            tileSetLoad.clear();
         }
         else {
 
