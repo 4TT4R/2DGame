@@ -19,11 +19,11 @@ public class AABB {
         /**left collision beginning**/
         if(e_pos.x+e_size.z >= t_pos.x+t_size.z) {
 
-
             if (e_pos.x+e_size.z+e_vector.x < t_pos.x+ t_size.z) {
+
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
 
-                    setCorrectPos(new Vector2f(t_pos.x+e_size.x+0.5f, e_pos.y));
+                    setCorrectPos(new Vector2f(t_pos.x+t_size.z-e_size.z, e_pos.y));
 
                     return true;
                 }
