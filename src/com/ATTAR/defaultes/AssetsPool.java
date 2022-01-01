@@ -15,7 +15,7 @@ public class AssetsPool {
         return sounds.values();
     }
 
-    private static List<Tiles> Tiles = new ArrayList<>();
+    public static List<Tiles> Tiles = new ArrayList<>();
 
     public static HashMap<Integer, Integer> blocks = new HashMap<>();
 

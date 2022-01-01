@@ -22,12 +22,16 @@ import javax.imageio.ImageIO;
 public class Texture {
 
 	
-	private int TexID;
+	private int TexID, pixel;
 	private String FilePath;
 	private Vector2i TexSize = new Vector2i();
+	private int[] pixels;
+
 	private List<Integer> TexIDList = new ArrayList<>();
 
+
 	public void genAnimation(String FilePath) throws IOException {
+
 		this.FilePath = FilePath;
 		BufferedImage ImageF = ImageIO.read(new File(FilePath));
 		BufferedImage image;
@@ -46,13 +50,13 @@ public class Texture {
 				for (int i = 0; i < TexSize.x / 32; i++) {
 					image = ImageF.getSubimage(i*32,j*32,32,32);
 
-					int[] pixels = new int[image.getWidth() * image.getHeight()];
+					pixels = new int[image.getWidth() * image.getHeight()];
 					image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
 
 
 					for(int y = 0; y < image.getHeight(); y++){
 						for(int x = 0; x < image.getWidth(); x++){
-							int pixel = pixels[y * image.getWidth() + x];
+							pixel = pixels[y * image.getWidth() + x];
 							buffer.put((byte) ((pixel >> 16) & 0xFF));     // Red component
 							buffer.put((byte) ((pixel >> 8) & 0xFF));      // Green component
 							buffer.put((byte) (pixel & 0xFF));	            // Blue component
@@ -155,6 +159,7 @@ public class Texture {
 					}
 					TexIDList.add(TexID);
 				}
+				byteImage.flip();
 			}
 		AssetsPool.addTexList(TexIDList,FilePath.split("/")[FilePath.split("/").length-1].replace(".png",""));
 		}
@@ -187,6 +192,49 @@ public class Texture {
 		}
 		unbind();
 	}
+	public Texture(String FilePath, int w) throws IOException {
+
+
+		this.FilePath = FilePath;
+		BufferedImage ImageF = ImageIO.read(new File(FilePath));
+		BufferedImage image;
+		IntBuffer Width = BufferUtils.createIntBuffer(1);
+		IntBuffer Height = BufferUtils.createIntBuffer(1);
+		IntBuffer Chanels = BufferUtils.createIntBuffer(1);
+
+		ByteBuffer byteImage = stbi_load(FilePath, Width, Height, Chanels, 4);
+
+
+		TexSize = new Vector2i(ImageF.getWidth(), ImageF.getHeight());
+
+
+
+			TexID = glGenTextures();
+
+
+			glBindTexture(GL_TEXTURE_2D, TexID);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			if (byteImage != null) {
+				if (Chanels.get(0) == 4) {
+
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TexSize.x, TexSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, byteImage);
+				} else if (Chanels.get(0) == 3) {
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TexSize.x, TexSize.y, 0, GL_RGB, GL_UNSIGNED_BYTE, byteImage);
+				}
+
+			}
+
+
+
+		unbind();
+	}
 
 	
 	
@@ -200,6 +248,12 @@ public class Texture {
 	}
 	public int getTexID() {
 		return TexID;
+	}
+	public void clear() {
+		TexSize = null;
+		TexIDList = null;
+		FilePath = null;
+
 	}
 	public void unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);

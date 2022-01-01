@@ -3,8 +3,10 @@ package com.ATTAR.physic;
 import org.joml.*;
 
 public class AABB {
-    private float leftside = 19;
+
     private Vector2f CorrectPos = new Vector2f();
+    private Vector2f e_vector = new Vector2f();
+
 
     public void setCorrectPos(Vector2f correctPos) {
         CorrectPos = correctPos;
@@ -14,8 +16,7 @@ public class AABB {
         return CorrectPos;
     }
 
-    public boolean isAabbXCollision(Vector2f e_pos, Vector4f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
-    {
+    public boolean isAabbXCollision(Vector2f e_pos, Vector4f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size) {
         /**left collision beginning**/
         if(e_pos.x+e_size.z >= t_pos.x+t_size.z) {
 
@@ -24,6 +25,11 @@ public class AABB {
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
 
                     setCorrectPos(new Vector2f(t_pos.x+t_size.z-e_size.z, e_pos.y));
+                    e_pos = null;
+                    e_size = null;
+
+                    t_pos = null;
+                    t_size = null;
 
                     return true;
                 }
@@ -38,25 +44,40 @@ public class AABB {
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
 
                     setCorrectPos(new Vector2f(t_pos.x-e_size.x-0.5f, e_pos.y));
+                    e_pos = null;
+                    e_size = null;
+                    
+                    t_pos = null;
+                    t_size = null;
 
                     return true;
                 }
             }
         }
         /**right collision end**/
+        e_pos = null;
+        e_size = null;
+        
+        t_pos = null;
+        t_size = null;
+
         return false;
     }
 
-    public boolean isAabbYCollision(Vector2f e_pos, Vector4f e_size,Vector2f e_vector, Vector2f t_pos, Vector4f t_size)
-    {
-
+    public boolean isAabbYCollision(Vector2f e_pos, Vector4f e_size, float e_vector_x, float e_vector_y, Vector2f t_pos, Vector4f t_size) {
+        e_vector.set(e_vector_x, e_vector_y);
         if (e_pos.y >= t_pos.y+t_size.w) {
 
             if(e_pos.y + e_vector.y < t_pos.y+t_size.w) {
 
-                if (e_pos.x+leftside+e_vector.x >= t_pos.x && e_pos.x+leftside+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
+                if (e_pos.x+e_size.z+e_vector.x >= t_pos.x && e_pos.x+e_size.z+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
 
                     setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.w));
+                    e_pos = null;
+                    e_size = null;
+                    
+                    t_pos = null;
+                    t_size = null;
 
                     return true;
                 }
@@ -64,16 +85,30 @@ public class AABB {
         }
         if (e_pos.y + e_size.y <= t_pos.y+t_size.y) {
             if (e_pos.y + e_size.y + e_vector.y> t_pos.y+t_size.y) {
-                if (e_pos.x+leftside+e_vector.x >= t_pos.x && e_pos.x+leftside+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
+                if (e_pos.x+e_size.z+e_vector.x >= t_pos.x && e_pos.x+e_size.z+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
 
                     setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.y-e_size.y));
+                    e_pos = null;
+                    e_size = null;
+
+                    t_pos = null;
+                    t_size = null;
 
                     return true;
                 }
             }
         }
+        e_pos = null;
+        e_size = null;
+        
+        t_pos = null;
+        t_size = null;
 
         return false;
+    }
+
+    public AABB() {
+        
     }
 
 }

@@ -129,8 +129,9 @@ public class LoadMap {
                 }
 
 
-
+                loader = null;
             }
+
 
         });
         loader.start();

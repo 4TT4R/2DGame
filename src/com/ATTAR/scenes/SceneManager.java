@@ -1,5 +1,6 @@
 package com.ATTAR.scenes;
 
+import com.ATTAR.defaultes.Collector;
 import org.joml.*;
 
 public class SceneManager {
@@ -23,18 +24,11 @@ public class SceneManager {
 
     }
     public void switchScene(String scene, String MapName) {
-        if (scene.equals("game")) {
-            this.scene = null;
 
-            this.scene = new GameScene(MapName, win, i, this);
-
-        }
-        else if (scene.equals("menu")) {
-            this.scene = null;
-            this.scene = new MainMenu( win, this, i);
+        this.scene = Collector.getScenes().get(scene);
 
 
-        }
+
 
     }
     public void update(double dt) {

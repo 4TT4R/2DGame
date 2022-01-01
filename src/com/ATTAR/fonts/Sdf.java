@@ -94,6 +94,7 @@ public class Sdf {
         glBindVertexArray(0);
         glBindTexture(GL_TEXTURE_2D, 0);
         s.detach();
+        s= null;
     }
 
     public void generateBitmap( String fontFile, int Font_Size) {

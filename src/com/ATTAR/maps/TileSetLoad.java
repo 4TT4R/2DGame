@@ -302,6 +302,9 @@ public class TileSetLoad {
                         }
 
                     setTileLoaded(true);
+
+                    loader = null;
+
                 }
 
 

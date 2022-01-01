@@ -1,7 +1,9 @@
 package com.ATTAR.scenes;
 
 import com.ATTAR.components.CompRender;
+import com.ATTAR.defaultes.AssetsPool;
 import com.ATTAR.defaultes.ButtonListener;
+import com.ATTAR.defaultes.Collector;
 import com.ATTAR.defaultes.KeyListener;
 import com.ATTAR.fonts.Sdf;
 import com.ATTAR.grafic.Camera;
@@ -11,6 +13,7 @@ import com.ATTAR.objects.Button;
 
 import org.joml.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,8 +37,22 @@ public class MainMenu extends Scene {
     private Shader sdfShader;
     private CompRender fontRender;
     private Sdf sdf;
+    private String name;
     private boolean needload, needFill;
-    Random random = new Random();
+    public void destroy() {
+        cam = null;
+        sdf = null;
+        fontRender = null;
+        scmg = null;
+        tileSetLoad = null;
+        sdfShader =null;
+        name = null;
+        keyListener = null;
+        buttonListener = null;
+
+        Start = null;
+        Quit = null;
+    }
 
     public MainMenu(long win, SceneManager scmg, int i) {
         needload = true;
@@ -57,8 +74,23 @@ public class MainMenu extends Scene {
         Buttons.add(Start = new Button(cam,new Vector2f(200,100),new Vector2f(50,160), win){
             @Override
             public void function() {
+
                 fontRender.Update("Loading...", new Vector2f(300, 185), 0.0875f, new Vector4f(0, 1, 0, 1),0);
 
+                    for (int j = 0; j < AssetsPool.Tiles.size(); j++) {
+                        name = AssetsPool.Tiles.get(j).getTexture();
+
+                        if (!Collector.getTextures().containsKey(name)) {
+                            try {
+
+                                Collector.addTexture(name, new Texture("./Assets/Tiles/" + name));
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+//                cam = null;
                 scmg.switchScene("game", "Map");
             }
         });

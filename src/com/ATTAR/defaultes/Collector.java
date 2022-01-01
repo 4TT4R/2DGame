@@ -1,6 +1,8 @@
 package com.ATTAR.defaultes;
 
+import com.ATTAR.grafic.Texture;
 import com.ATTAR.objects.Tiles;
+import com.ATTAR.scenes.Scene;
 import org.joml.*;
 
 import java.util.HashMap;
@@ -15,6 +17,21 @@ public class Collector {
     private static Vector2f PlayerPos;
     private static Vector4f Time;
     private static HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
+    private static HashMap<String, Texture> textures = new HashMap<>();
+    private static HashMap<String, Scene> Scenes = new HashMap<>();
+
+
+    public static void addScene(String key, Scene value) {
+        Scenes.put(key, value);
+        key = null;
+        value = null;
+
+    }
+
+    public static HashMap<String, Scene> getScenes() {
+        return Scenes;
+    }
+
 
     public static int getFloor() {
         return Floor;
@@ -32,11 +49,25 @@ public class Collector {
         Collector.Ceil = ceil;
 
     }
-
+//
     public static void addToBlockMap(Vector2f key, Tiles value) {
         BlockMap.put(key, value);
+        key = null;
+        value = null;
+
     }
 
+    public static HashMap<String, Texture> getTextures() {
+        return textures;
+    }
+
+    public static void replaceInBlockMap(Vector2f key, Tiles value) {
+        BlockMap.replace(key, value);
+    }
+    public static void addTexture(String key, Texture value) {
+        textures.put(key, value);
+    }
+    public static Texture getTexture(String key) {return  textures.get(key);}
     public static HashMap<Vector2f, Tiles> getBlockMap() {
         return BlockMap;
     }

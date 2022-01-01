@@ -10,21 +10,28 @@ import com.ATTAR.grafic.*;
 import java.util.*;
 public class LoadTiles {
     private static Set<Vector2f> BlockPos;
-
-
+    private static List<Vector2f> oldKeys = new ArrayList<>();
     public static Tiles loadTiles(Vector2f pos, Vector3f scale, Vector2f Scales, int ID, Camera cam) {
-        Tiles tiles = new Tiles(AssetsPool.getTile(ID-1),cam);
+        Tiles tiles = AssetsPool.getTile(ID-1);
+        tiles.setCam(cam);
         tiles.init();
         tiles.setScale(scale);
-        tiles.setPos(new Vector2f(pos.x * (100*Scales.x), pos.y* (100*Scales.y)));
+        tiles.setPos(pos.x * (100*Scales.x), pos.y* (100*Scales.y));
+        pos = null;
+        scale = null;
+        Scales = null;
+        cam = null;
         return tiles;
 
+
     }
+
+
     public static Tiles replaceTile(Vector2f Pos, Tiles tile, Camera cam) {
         Tiles tiles = new Tiles(tile,cam);
         tiles.init();
         tiles.setScale(new Vector3f(1));
-        tiles.setPos(Pos);
+        tiles.setPos(Pos.x, Pos.y);
         return tiles;
 
     }
@@ -33,16 +40,26 @@ public class LoadTiles {
 
         BlockPos = Map.keySet();
 
-        Collector.clearBlockMap();
+
+        System.gc();
+
+        Vector2f pos = new Vector2f();
         for (int i = BlockPos.size()-1; i >=0; i--) {
 
-            Vector2f pos = (Vector2f) BlockPos.toArray()[i];
+            pos = (Vector2f) BlockPos.toArray()[i];
+            if (pos.y <= (float) Collector.getCeil() && pos.y >= (float) Collector.getFloor()) {
+                if (!Collector.getBlockMap().containsKey(pos)) {
+                    Collector.addToBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+                }
+                else {
+                    Collector.getBlockMap().replace(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
 
-            if (((Vector2f) BlockPos.toArray()[i]).y <= (float) Collector.getCeil() && ((Vector2f) BlockPos.toArray()[i]).y >= (float) Collector.getFloor()) {
-
-                Collector.addToBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+                }
             }
         }
+
+        pos = null;
+        System.gc();
         
     }
 

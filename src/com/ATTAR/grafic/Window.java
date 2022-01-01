@@ -1,7 +1,6 @@
 package com.ATTAR.grafic;
 
-import com.ATTAR.defaultes.FrameLimiter;
-import com.ATTAR.defaultes.KeyListener;
+import com.ATTAR.defaultes.*;
 import org.lwjgl.openal.*;
 import org.joml.*;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -70,8 +69,9 @@ public class Window {
 			assert false : "Audio library not supported.";
 		}
 
-
 		scmg = new SceneManager(new Vector2f(size.x, size.y), win, i);
+		Collector.addScene("menu", new MainMenu( win, scmg, i));
+		Collector.addScene("game", new GameScene("Map", win, i, scmg));
 		scmg.switchScene("menu", null);
 
 
@@ -79,7 +79,9 @@ public class Window {
 	public Vector2i getSize() {
 		return this.size;
 	}
+
 	public void update() {
+
 		double Startloop = 0;
 		double FirstTick = 0;
 		double LastTick = FrameLimiter.getTime();
@@ -94,7 +96,7 @@ public class Window {
 				break;
 			}
 			if (Startloop >=1) {
-//				System.out.println(Math.round(fps/Startloop));
+				System.out.println(Math.round(fps/Startloop));
 
 				Startloop = 0;
 				fps = 0;
@@ -120,6 +122,7 @@ public class Window {
 				if (glfwWindowShouldClose(win)){
 					break;
 				}
+
 			}
 //			swap buffers
 

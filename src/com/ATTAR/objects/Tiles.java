@@ -15,13 +15,18 @@ public class Tiles {
 	private Vector3f Scale;
 	private Vector2f Size;
 	private Animation an;
+
+	public CompRender getRender() {
+		return render;
+	}
+
+	public void setRender(CompRender render) {
+		this.render = render;
+	}
+
 	private CompRender render;
 	private HashMap<String, Boolean> properties = new HashMap<>();
     private HashMap<String, Boolean> Killing = new HashMap<>();
-
-    public HashMap<String, Boolean> GetInfo() {
-		return properties;
-	}
 
 
 	public void setScale(Vector3f Scale) {
@@ -77,19 +82,43 @@ public class Tiles {
         return cam;
     }
 
+	public void setCam(Camera cam) {
+		this.cam = cam;
+	}
+
+	public void destroy() {
+		if (render != null) {
+			render.destroy();
+		}
+		cam = null;
+		render = null;
+		AABB = null;
+		Texture = null;
+		type = null;
+		properties = null;
+		Killing = null;
+		an = null;
+		Size = null;
+		Scale = null;
+		shader = null;
+	}
+
+
+
     public Tiles(Tiles tile, Camera cam) {
 		this.cam = cam;
 		this.AABB = tile.getAABB();
 		this.Texture = tile.getTexture();
 		this.Killing = tile.getKilling();
-
 		this.Solid = tile.isSolid();
 		this.type = tile.getType();
 		this.animated = tile.isAnimated();
 		this.triger = tile.isTriger();
 		this.ID = tile.ID;
+		this.fps = tile.fps;
 		startAn =true;
 		an = new Animation(false);
+
 
 	}
 
@@ -127,15 +156,15 @@ public class Tiles {
 		}
 	}
 	
-	public void setPos(Vector2f pos) {
-		
-		render.setPos(pos);
-	
+	public void setPos(float x , float y) {
+
+		render.setPos(x,y);
+
 	}
 	public Vector2f getPos() {
-		
+
 		return render.getPos();
-	
+
 	}
 	public Vector2f getSize() {
 		return Size;

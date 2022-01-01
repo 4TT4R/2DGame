@@ -11,8 +11,8 @@ public class Camera {
     	return position;
     }
     
-    public void setCamPos(Vector2f pos) {
-    	position = pos;
+    public void setCamPos(float x, float y) {
+    	position.set(x, y);
     }
     
     

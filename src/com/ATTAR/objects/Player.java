@@ -14,8 +14,9 @@ public class Player {
 	private float hp;
 	private Animation an;
 	private HashMap<String, Integer> Animations;
-	private CompRender render;
-	private Texture tx;
+	private CompRender render,render2;
+	private Texture tx,tx2;
+
 	int idleID;
 	public Player(Camera cam) {
 		an = new Animation(true);
@@ -24,8 +25,14 @@ public class Player {
 		Scale = new Vector3f(1);
 		hp = 3;
 		render = new CompRender();
+		render2 = new CompRender();
 		try {
 			tx = new Texture("./Assets/Tiles/Player_idle.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			tx2 = new Texture("./Assets/Tiles/Player_idle.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,24 +42,39 @@ public class Player {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			tx2.genAnimation("./Assets/Tiles/Player_Walk_L.png");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		render.init(shader,tx, cam, true);
+		render2.init(shader,tx2, cam, true);
+
 	}
 	private Shader shader = new Shader("Shaders/Default.glsl");
 
 	
 	public void update(Vector2f Vector) {
-		if (Vector.x != 0 || Vector.y > 0 || Vector.y < -0.4167f) {
+		setPos(getPos().x+Vector.x, getPos().y+Vector.y);
+		if (Vector.x > 0 ) {
 			render.Update(an,"Player_Walk_R", Scale, 24, AssetsPool.getTexList("Player_Walk_R").size() );
 		}
+		else if(Vector.x < 0){
+			render2.Update(an,"Player_Walk_L", Scale, 24, AssetsPool.getTexList("Player_Walk_L").size() );
+		}
+//		else if (Vector.y !=0) {
+//			render2.Update(an,"Player_Walk_L", Scale, 24, AssetsPool.getTexList("Player_Walk_L").size() );
+//
+//		}
 		else {
 			render.Update(Scale, idleID);
 		}
-		setPos(new Vector2f(getPos().x+Vector.x, getPos().y+Vector.y));
-		
+
 	}
-	public void setPos(Vector2f pos) {
-		render.setPos(pos);
-		
+	public void setPos(float x , float y) {
+		render.setPos(x,y);
+		render2.setPos(x,y);
+
 	}
 	public void setHp(float HP) {
 		this.hp = HP;

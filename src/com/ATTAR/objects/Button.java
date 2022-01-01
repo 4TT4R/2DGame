@@ -35,7 +35,7 @@ public class Button {
     public Button(Camera cam, Vector2f size, Vector2f pos, long win) {
         sq = new Squere(cam);
         sq.init(new Vector3f(255));
-        sq.setPos(pos);
+        sq.setPos(pos.x, pos.y);
         sq.setScale(sizeToScale(size));
         setColor(new Vector3f(1));
         keyListener = new KeyListener(win);

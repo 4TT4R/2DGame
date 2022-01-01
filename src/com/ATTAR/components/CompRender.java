@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.*;
 import java.util.Arrays;
 
+import com.ATTAR.defaultes.Collector;
 import com.ATTAR.fonts.Sdf;
 import org.joml.*;
 import org.lwjgl.BufferUtils;
@@ -21,10 +22,36 @@ public class CompRender  {
 	
 
 	public Vector4f color;
-	Camera cam;
+	private Camera cam;
 	private Vector2f pos;
 	private Vector3f scale;
+	private float[] Verticies;
+	private int[] Elements;
+	private boolean animated;
+	private Shader shader;
+	private Animation an;
+	private Texture test_Tex;
+	private int vaoID, vboID, eboID, positionSize, colorSize, texSize, floatSizeBytes, vertexSizeBytes;
+	private Sdf sdf;
 
+	public void destroy() {
+		if (test_Tex !=null) {
+
+			test_Tex.clear();
+		}
+		color = null;
+		cam = null;
+		pos = null;
+		scale = null;
+		shader = null;
+		test_Tex = null;
+		sdf = null;
+		an = null;
+
+		glFinish();
+		glFlush();
+
+	}
 
 	public Vector4f getColor() {
 		return color;
@@ -33,13 +60,11 @@ public class CompRender  {
 	public void setColor(Vector4f color) {
 		this.color = color;
 	}
-
-	float[] Verticies;
 	public CompRender() {
 
+		pos = new Vector2f();
 
-		
-		float[] Verticies = {
+		Verticies = new float[]{
 
 				// Vertices						//Color				//Tex_Vertices
 				0, 		100, 	0, 				1f, 0f, 0f, 1f,		0,0,		//0	left_top
@@ -47,27 +72,21 @@ public class CompRender  {
 				100, 	0,		0,				0f, 0f, 1f, 1f,		1,1,		//2	right_bottom
 				0, 		0, 		0,				1f, 1f, 0f, 1f,		0,1			//3	left_bottom
 		};
-		this.Verticies = Verticies;
+		 Elements = new int[] {
+				0,1,2,2,3,0
+		};
 	}
 
-	private static int[] Elements = {
-		0,1,2,2,3,0
-	};
-	private boolean animated;
-	private Shader shader;
-	private Animation an;
-	private Texture test_Tex;
-	private int vaoID, vboID, eboID;
-	private Sdf sdf;
-	public void setPos(Vector2f pos) {
-		this.pos = pos;
+
+
+	public void setPos(float x, float y) {
+		this.pos.set(x, y);
 	}
-	
 	public Vector2f getPos() {
 		return this.pos;
 	}
-	public void SetCamPos(Vector2f pos) {
-		cam.setCamPos(pos);
+	public void SetCamPos(float x, float y) {
+		cam.setCamPos(x, y);
 	}
 	public Vector2f GetCamPos() {
 		return cam.getCamPos();
@@ -116,18 +135,18 @@ public class CompRender  {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL_STATIC_DRAW);
 //		setting up some integers
 //		how many numbers have position
-		int positionSize = 3;
+		 positionSize = 3;
 //		how many numbers have color
-		int colorSize = 4;
+		 colorSize = 4;
 
 //		how many numbers have color
-		int texSize = 2;
+		 texSize = 2;
 //		how many bytes have float in java
-		int floatSizeBytes = Float.BYTES;
+		 floatSizeBytes = Float.BYTES;
 //
 
 
-		int vertexSizeBytes = (positionSize + colorSize + texSize) * floatSizeBytes;
+		 vertexSizeBytes = (positionSize + colorSize + texSize) * floatSizeBytes;
 
 		glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeBytes , 0);
 		glEnableVertexAttribArray(0);
@@ -140,6 +159,7 @@ public class CompRender  {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+
 	}
 	public void init(Shader shader, String Tex_path, Camera cam, boolean animated) {
 
@@ -149,11 +169,9 @@ public class CompRender  {
 		color = new Vector4f(1,0,0,1);
 
 
-		try {
-			test_Tex = new Texture("./Assets/Tiles/"+Tex_path);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		test_Tex = Collector.getTexture(Tex_path);
+
 
 
 
@@ -183,18 +201,18 @@ public class CompRender  {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL_STATIC_DRAW);
 //		setting up some integers
 //		how many numbers have position
-		int positionSize = 3;
+		positionSize = 3;
 //		how many numbers have color
-		int colorSize = 4;
+		colorSize = 4;
 
 //		how many numbers have color
-		int texSize = 2;
+		texSize = 2;
 //		how many bytes have float in java
-		int floatSizeBytes = Float.BYTES;
+		floatSizeBytes = Float.BYTES;
 //		
 
 
-		int vertexSizeBytes = (positionSize + colorSize + texSize) * floatSizeBytes;
+		vertexSizeBytes = (positionSize + colorSize + texSize) * floatSizeBytes;
 		
 		glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeBytes , 0);
 		glEnableVertexAttribArray(0);
@@ -206,6 +224,8 @@ public class CompRender  {
 		glEnableVertexAttribArray(2);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 
 	}
 	public void init(Shader shader, Texture Tex, Camera cam, boolean animated) {
@@ -248,18 +268,18 @@ public class CompRender  {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL_STATIC_DRAW);
 //		setting up some integers
 //		how many numbers have position
-		int positionSize = 3;
+		positionSize = 3;
 //		how many numbers have color
-		int colorSize = 4;
+		colorSize = 4;
 
 //		how many numbers have color
-		int texSize = 2;
+		texSize = 2;
 //		how many bytes have float in java
-		int floatSizeBytes = Float.BYTES;
+		floatSizeBytes = Float.BYTES;
 //
 
 
-		int vertexSizeBytes = (positionSize + colorSize + texSize) * floatSizeBytes;
+		vertexSizeBytes = (positionSize + colorSize + texSize) * floatSizeBytes;
 
 		glVertexAttribPointer(0, positionSize, GL_FLOAT, false, vertexSizeBytes , 0);
 		glEnableVertexAttribArray(0);

@@ -9,5 +9,6 @@ public class Scene {
     }
 
 
-
+    public void destroy() {
+    }
 }

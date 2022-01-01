@@ -13,6 +13,7 @@ public class SaveWriter {
         try {
             File myObj = new File("Save.xml");
             myObj.createNewFile();
+            myObj = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -27,6 +28,7 @@ public class SaveWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 }

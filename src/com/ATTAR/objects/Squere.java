@@ -46,9 +46,9 @@ public class Squere {
         render.setColor(new Vector4f(color,1));
 
     }
-    public void setPos(Vector2f pos) {
+    public void setPos(float x, float y ) {
 
-        render.setPos(pos);
+        render.setPos(x, y);
 
     }
     public Vector2f getPos() {
