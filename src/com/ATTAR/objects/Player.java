@@ -21,7 +21,7 @@ public class Player {
 	public Player(Camera cam) {
 		an = new Animation(true);
 
-		setSize(new Vector4f((float) Math.floor(24d/32d*100d),(float) Math.floor(31d/32d*100d), (float) Math.floor(4d/32d*100d),0));
+		setSize(new Vector4f((float) Math.floor(28d/32d*100d),(float) Math.floor(31d/32d*100d), (float) Math.floor(4d/32d*100d),0));
 		Scale = new Vector3f(1);
 		hp = 3;
 		render = new CompRender();

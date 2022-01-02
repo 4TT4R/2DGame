@@ -11,7 +11,7 @@ public class Background {
 
 
 
-    private Texture tx, tx2;
+    private Texture tx;
     private Vector2f pos;
     private CompRender render;
     private int txID, tx2ID;
@@ -25,14 +25,14 @@ public class Background {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        txID = tx.getTexID();
         try {
-            tx2 = new Texture("./Assets/Backgrounds/BG_1.png",0);
+            tx = new Texture("./Assets/Backgrounds/BG_1.png",0);
         } catch (IOException e) {
             e.printStackTrace();
         }
         render.init(shader,tx , cam, false);
-        txID = tx.getTexID();
-        tx2ID = tx2.getTexID();
+        tx2ID = tx.getTexID();
         Scale = new Vector3f(100,25,1);
 
     }
