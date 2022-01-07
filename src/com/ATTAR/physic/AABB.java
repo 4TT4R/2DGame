@@ -23,8 +23,8 @@ public class AABB {
             if (e_pos.x+e_size.z+e_vector.x < t_pos.x+ t_size.z) {
 
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
-
-                    setCorrectPos(new Vector2f(t_pos.x+t_size.z-e_size.z, e_pos.y));
+                    System.out.println("left collision");
+                    setCorrectPos(new Vector2f(t_pos.x+t_size.z-e_size.z+0.5f, e_pos.y));
                     e_pos = null;
                     e_size = null;
 
@@ -42,7 +42,7 @@ public class AABB {
             if (e_pos.x+ e_size.x+e_vector.x > t_pos.x) {
 
                 if (e_pos.y+ e_vector.y>= t_pos.y+t_size.y && e_pos.y+ e_vector.y<= t_pos.y+ t_size.w || e_pos.y+ e_size.y+ e_vector.y<= t_pos.y+t_size.w && e_pos.y+ e_vector.y+ e_size.y>= t_pos.y+t_size.y){
-
+                    System.out.println("right collision");
                     setCorrectPos(new Vector2f(t_pos.x-e_size.x-0.5f, e_pos.y));
                     e_pos = null;
                     e_size = null;
@@ -71,7 +71,7 @@ public class AABB {
             if(e_pos.y + e_vector.y < t_pos.y+t_size.w) {
 
                 if (e_pos.x+e_size.z+e_vector.x >= t_pos.x && e_pos.x+e_size.z+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
-
+                    System.out.println("top collision");
                     setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.w));
                     e_pos = null;
                     e_size = null;
@@ -86,7 +86,7 @@ public class AABB {
         if (e_pos.y + e_size.y <= t_pos.y+t_size.y) {
             if (e_pos.y + e_size.y + e_vector.y> t_pos.y+t_size.y) {
                 if (e_pos.x+e_size.z+e_vector.x >= t_pos.x && e_pos.x+e_size.z+e_vector.x<= t_pos.x+ t_size.z || e_pos.x+e_vector.x+ e_size.x>= t_pos.x&& e_pos.x+e_vector.x+ e_size.x <= t_pos.x+ t_size.z ) {
-
+                    System.out.println("bottom collision");
                     setCorrectPos(new Vector2f(e_pos.x,t_pos.y+t_size.y-e_size.y));
                     e_pos = null;
                     e_size = null;

@@ -55,7 +55,6 @@ public class Player {
 
 	
 	public void update(Vector2f Vector) {
-		setPos(getPos().x+Vector.x, getPos().y+Vector.y);
 		if (Vector.x > 0 ) {
 			render.Update(an,"Player_Walk_R", Scale, 24, AssetsPool.getTexList("Player_Walk_R").size() );
 		}
@@ -70,6 +69,7 @@ public class Player {
 			render.Update(Scale, idleID);
 		}
 
+		setPos(getPos().x+Vector.x, getPos().y+Vector.y);
 	}
 	public void setPos(float x , float y) {
 		render.setPos(x,y);
