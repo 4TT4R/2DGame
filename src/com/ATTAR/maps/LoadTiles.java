@@ -38,24 +38,52 @@ public class LoadTiles {
 
     public static void load(HashMap<Vector2f, Integer> Map, Camera cam){
 
-        BlockPos = Map.keySet();
+//        BlockPos = Map.keySet();
 
 
         System.gc();
 
-        Vector2f pos = new Vector2f();
-        for (int i = BlockPos.size()-1; i >=0; i--) {
+        Vector2f pos = new Vector2f(0);
+//        for (int i = BlockPos.size()-1; i >=0; i--) {
+//
+//            pos = (Vector2f) BlockPos.toArray()[i];
+//            if (pos.y <= (float) Collector.getCeil() && pos.y >= (float) Collector.getFloor()) {
+//                if (!Collector.getBlockMap().containsKey(pos)) {
+//                    Collector.addToBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+//                }
+//                else {
+//                    Collector.getBlockMap().replace(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+//
+//                }
+//            }
+//        }
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 25; j++) {
+                pos = new Vector2f(i,j);
+                if (Map.containsKey(new Vector2f(i,(float) j+Collector.getFloor()))) {
+                    if (Collector.getBlockMap().containsKey(pos)) {
+                        Collector.replaceInBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(new Vector2f(i, j+Collector.getFloor())), cam));
 
-            pos = (Vector2f) BlockPos.toArray()[i];
-            if (pos.y <= (float) Collector.getCeil() && pos.y >= (float) Collector.getFloor()) {
-                if (!Collector.getBlockMap().containsKey(pos)) {
-                    Collector.addToBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+                    }
+                    else {
+                        Collector.addToBlockMap(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(new Vector2f(i, j + Collector.getFloor())), cam));
+                    }
                 }
                 else {
-                    Collector.getBlockMap().replace(pos, loadTiles(pos, new Vector3f(1f), new Vector2f(1f), Map.get(pos), cam));
+//                    System.out.println(new Vector2f(i,j+Collector.getFloor()) + "Null");
+                    if (Collector.getBlockMap().containsKey(pos)) {
 
+                        Collector.replaceInBlockMap(pos, null);
+
+                    }
+                    else {
+
+                        Collector.addToBlockMap(pos, null);
+                    }
                 }
+
             }
+
         }
 
         pos = null;
