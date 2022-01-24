@@ -1,6 +1,7 @@
 package com.ATTAR.grafic;
 
 import com.ATTAR.defaultes.*;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.openal.*;
 import org.joml.*;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -25,12 +26,13 @@ public class Window {
 	private SceneManager scmg;
 	private long audioContext;
 	private long audioDevice;
+	private GLFWCursorPosCallback cursorPos;
 
 	public Window(String name, Vector2i size, boolean fullscrean, int i) {
 
 		this.size = size;
 
-
+		System.out.println("lwjgl version: " + glfwGetVersionString());
 		
 //		getvideomode primary monitor
 		GLFWVidMode vid = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -48,6 +50,8 @@ public class Window {
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 //		creating window
 		win = glfwCreateWindow(size.x, size.y, name, fullscreanl, 0);
+		Collector.setWinSize(new Vector2f(size.x,size.y));
+		glfwSetCursorPosCallback(win, cursorPos = new CursorInput());
 		keyListener = new KeyListener(win);
 //		make context because u must
 

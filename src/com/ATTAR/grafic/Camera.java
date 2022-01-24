@@ -1,5 +1,6 @@
 package com.ATTAR.grafic;
 
+import com.ATTAR.defaultes.Collector;
 import org.joml.*;
 
 public class Camera {
@@ -12,10 +13,11 @@ public class Camera {
     }
     
     public void setCamPos(float x, float y) {
+        Collector.setCamPos(x, y);
     	position.set(x, y);
     }
     
-    
+
     
     public Vector2f getSize() {
 		return size;

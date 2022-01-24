@@ -27,6 +27,8 @@ public class GameScene extends Scene {
 	private int lastGC = 0;
 	private List<Integer> toRemove = new ArrayList<>();
 	private List<Integer> toRemoveCh = new ArrayList<>();
+	private List<float[]> projectiles = new ArrayList<>();
+	private Projectile projectile;
 	private Player player;
 	private Vector4f vector4f;
 	private boolean isLoaded,godMod;
@@ -49,7 +51,10 @@ public class GameScene extends Scene {
 	private Vector2f Level_floor_ciling;
 	private StopWatch stopWatch;
 	private Background bg;
-	public Vector2f getPlayerTileByCenter() {
+    private boolean ad = false;
+    private float xds;
+
+    public Vector2f getPlayerTileByCenter() {
 		return new Vector2f((int)Math.floor((player.getPos().x+50)/100), (int)Math.floor((player.getPos().y+50)/100));
 	}
 	public Vector2f getPlayerTile() {
@@ -481,46 +486,47 @@ public class GameScene extends Scene {
 	public GameScene(String MapName, long win, int i, SceneManager scmg) {
 		godMod = false;
 		colliding = true;
-		vector2f = new Vector2f();
-		tileKey = new Vector2f();
-		vector4f = new Vector4f();
-		ReadSave.ReadSave();
-		stopWatch = new StopWatch(Collector.getTime());
-		timer = 0;
-		next_level = false;
-		level = Collector.getLevel();
-		can_move = true;
-		BlockTimer = new ArrayList<>();
-		ChangeTimer = new ArrayList<>();
-		under_tile_key = new Vector2f();
-		isLoaded =false;
-		physic = new Physic();
+        vector2f = new Vector2f();
+        tileKey = new Vector2f();
+        vector4f = new Vector4f();
+        ReadSave.ReadSave();
+        stopWatch = new StopWatch(Collector.getTime());
+        timer = 0;
+        next_level = false;
+        level = Collector.getLevel();
+        can_move = true;
+        BlockTimer = new ArrayList<>();
+        ChangeTimer = new ArrayList<>();
+        under_tile_key = new Vector2f();
+        isLoaded =false;
+        physic = new Physic();
 
-		Buttons = new ArrayList<>();
-		AssetsPool.addSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg", true);
-		bgSound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
-		cam = new Camera(new Vector2f(0), i);
-		this.CamSize = cam.getSize();
-		keyListener = new KeyListener(win);
-		player = new Player(cam);
-		default_pos= new Vector2f(100,115);
-		player.setPos(Collector.getPlayerPos().x, Collector.getPlayerPos().y);
-		loadMap = new LoadMap(MapName+".xml");
-		PM = new PlayerMovement(win, player.getPos());
-		pause = false;
-		sdf = new Sdf();
-		sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 1024);
-		sdfShader = new Shader("./Shaders/sdfShader.glsl");
-		fontRender = new CompRender();
-		fontRender.init(sdfShader, cam, sdf);
-		respawn = false;
-		buttonListener = new ButtonListener(win, new Vector2i(1,2));
-		bg = new Background(cam);
+        Buttons = new ArrayList<>();
+        AssetsPool.addSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg", true);
+        bgSound = AssetsPool.getSound("Assets/Sounds/soundtrack/8_Bit_Retro_Funk.ogg");
+        cam = new Camera(new Vector2f(0), i);
+        this.CamSize = cam.getSize();
+        keyListener = new KeyListener(win);
+        player = new Player(cam);
+        default_pos= new Vector2f(100,115);
+        player.setPos(Collector.getPlayerPos().x, Collector.getPlayerPos().y);
+        loadMap = new LoadMap(MapName+".xml");
+        PM = new PlayerMovement(win, player.getPos());
+        pause = false;
+        sdf = new Sdf();
+        sdf.generateBitmap("C:/Windows/Fonts/arial.ttf", 1024);
+        sdfShader = new Shader("./Shaders/sdfShader.glsl");
+        fontRender = new CompRender();
+        fontRender.init(sdfShader, cam, sdf);
+        respawn = false;
+        buttonListener = new ButtonListener(win, new Vector2i(1,2));
+        bg = new Background(cam);
+        projectile = new Projectile(cam);
 
-		if (level == 0){
+        if (level == 0){
 
-			Level_floor_ciling = new Vector2f(0,2450);
-			Collector.setCeil(24);
+            Level_floor_ciling = new Vector2f(0,2450);
+            Collector.setCeil(24);
 			Collector.setFloor(0);
 		}
 		else if (level==1){
@@ -622,7 +628,20 @@ public class GameScene extends Scene {
 			}
 			physic.update();
 			getCollision();
-
+            updateProjectiles();
+            if (CursorInput.isPressed(GLFW_MOUSE_BUTTON_1) && !ad) {
+                projectiles.add(projectile.init());
+                ad = true;
+            }
+            if (ad) {
+                if (xds<1f) {
+                    xds+=1f/60f;
+                }
+                else {
+                    ad = false;
+                    xds = 0;
+                }
+            }
 			tileRender();
 			updateHP();
 
@@ -850,5 +869,14 @@ public class GameScene extends Scene {
 	public Vector2f returnVector2f(float x, float y) {
 		vector2f.set(x,y);
 		return vector2f;
+	}
+	public void updateProjectiles() {
+		for (int i = projectiles.size()-1; i >= 0; i--) {
+			projectile.setDistanceAndPos(projectiles.get(i)[0], projectiles.get(i)[1], projectiles.get(i)[2], projectiles.get(i)[3]);
+			projectile.update();
+			projectiles.set(i, projectile.updateArray());
+		}
+
+
 	}
 }
