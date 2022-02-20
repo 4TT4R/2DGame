@@ -35,6 +35,7 @@ public class Camera {
         else {
             this.size = new Vector2f(1024, 768);
         }
+        Collector.setCamSize(this.getSize());
         this.projectionMatrix = new Matrix4f();
         this.viewMatrix = new Matrix4f();
         adjustProjection();

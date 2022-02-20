@@ -51,7 +51,8 @@ public class Window {
 //		creating window
 		win = glfwCreateWindow(size.x, size.y, name, fullscreanl, 0);
 		Collector.setWinSize(new Vector2f(size.x,size.y));
-		glfwSetCursorPosCallback(win, cursorPos = new CursorInput());
+		cursorPos = new CursorInput();
+		glfwSetCursorPosCallback(win, cursorPos);
 		keyListener = new KeyListener(win);
 //		make context because u must
 

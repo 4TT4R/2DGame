@@ -20,8 +20,8 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.setOut(fileOut);
-		System.setErr(fileOut);
+/*		System.setOut(fileOut);
+		System.setErr(fileOut);*/
 
 
 		if(!glfwInit()) {

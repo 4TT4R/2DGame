@@ -16,11 +16,19 @@ public class Collector {
     private static int Level, Ceil, Floor;
     private static Vector2f PlayerPos;
     private static Vector4f Time;
-    private static Vector2f CursorPos = new Vector2f(), winSize = new Vector2f(), CamPos = new Vector2f() ;
+    private static Vector2f CursorPos = new Vector2f(), winSize = new Vector2f(), CamPos = new Vector2f(), camSize = new Vector2f() ;
     private static HashMap<Vector2f, Tiles> BlockMap = new HashMap<>();
     private static HashMap<String, Texture> textures = new HashMap<>();
     private static HashMap<String, Scene> Scenes = new HashMap<>();
 
+
+    public static Vector2f getCamSize() {
+        return camSize;
+    }
+
+    public static void setCamSize(Vector2f camSize) {
+        Collector.camSize = camSize;
+    }
 
     public static Vector2f getCamPos() {
         return CamPos;

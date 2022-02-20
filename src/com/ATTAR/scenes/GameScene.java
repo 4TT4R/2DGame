@@ -630,12 +630,12 @@ public class GameScene extends Scene {
 			getCollision();
             updateProjectiles();
             if (CursorInput.isPressed(GLFW_MOUSE_BUTTON_1) && !ad) {
-                projectiles.add(projectile.init());
+                projectiles.add(projectile.init(player.getPos().x, player.getPos().y));
                 ad = true;
             }
             if (ad) {
                 if (xds<1f) {
-                    xds+=1f/60f;
+                    xds+=1f/5f;
                 }
                 else {
                     ad = false;
@@ -707,7 +707,7 @@ public class GameScene extends Scene {
 		System.gc();
 		LoadTiles.load(loadMap.getMap(), cam);
 		isLoaded =true;
-		System.out.println(Collector.getBlockMap().size());
+
 	}
 	public void tileChanger() {
 		for (int i = 0; i < ChangeTimer.size(); i++) {
@@ -874,7 +874,13 @@ public class GameScene extends Scene {
 		for (int i = projectiles.size()-1; i >= 0; i--) {
 			projectile.setDistanceAndPos(projectiles.get(i)[0], projectiles.get(i)[1], projectiles.get(i)[2], projectiles.get(i)[3]);
 			projectile.update();
-			projectiles.set(i, projectile.updateArray());
+			if (projectile.updateArray()[4] == 1) {
+				projectiles.remove(i);
+			}
+			else {
+
+				projectiles.set(i, projectile.updateArray());
+			}
 		}
 
 
