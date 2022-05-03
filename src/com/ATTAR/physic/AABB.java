@@ -119,10 +119,18 @@ public class AABB {
 
         return false;
     }
-    
-    public boolean AABBProjectile(Vector2f e1_tile_byCenter, Vector2f e1_tile, Vector2f e2_tile_byCenter, Vector2f e2_tile, Vector4f e1_size, Vector2f e1_vector, Vector4f e2_size, Vector2f e2_vector, Vector2f e1_pos, Vector2f e2_pos) {
+    public boolean AABBProjectileWithPlayer(Vector2f en1_pos, Vector2f en1_vector, Vector4f en1_AABB, Vector2f en2_pos, Vector2f en2_vector, Vector4f en2_AABB){
+        if(     en1_pos.x + en1_vector.x + en1_AABB.z < en2_pos.x + en2_vector.x + en2_AABB.x &&
+                en1_pos.x + en1_vector.x + en1_AABB.x > en2_pos.x + en2_vector.x + en2_AABB.z &&
+                en1_pos.y + en1_vector.y + en1_AABB.w < en2_pos.y + en2_vector.y + en2_AABB.y &&
+                en1_pos.y + en1_vector.y + en1_AABB.y> en2_pos.y + en2_vector.y + en2_AABB.w) {
+            return true;
+        }
+        return false;
+    }
+    public boolean AABBProjectile(Vector2f e1_tile_byCenter, Vector2f e1_tile, Vector4f e1_size, Vector2f e1_vector, Vector2f e1_pos) {
         /*left collision beginning*/
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x - 1, e1_tile.y)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x - 1, e1_tile.y)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile = Collector.getBlockMap().get(tileKey);
             current_tile_pos = getPosByKey(tileKey);
             if (isAabbXCollision(e1_pos,
@@ -138,7 +146,7 @@ public class AABB {
 
             }
         }
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x - 1, e1_tile.y + 1)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x - 1, e1_tile.y + 1)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
             current_tile = Collector.getBlockMap().get(tileKey);
             if (isAabbXCollision(e1_pos,
@@ -154,7 +162,7 @@ public class AABB {
         }
         /*left collision end*/
         /*right collision beginning*/
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x + 1, e1_tile.y)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x + 1, e1_tile.y)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
             current_tile = Collector.getBlockMap().get(tileKey);
             if (isAabbXCollision(e1_pos,
@@ -167,7 +175,7 @@ public class AABB {
 
             }
         }
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x + 1, e1_tile.y + 1)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile_byCenter.x + 1, e1_tile.y + 1)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
             current_tile = Collector.getBlockMap().get(tileKey);
             if (isAabbXCollision(e1_pos,
@@ -185,7 +193,7 @@ public class AABB {
         }
         /*right collision end*/
         /*top collision beginning*/
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x, e1_tile_byCenter.y + 1)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x, e1_tile_byCenter.y + 1)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
             current_tile = Collector.getBlockMap().get(tileKey);
             if (isAabbYCollision(e1_pos,
@@ -200,7 +208,7 @@ public class AABB {
             }
 
         }
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x + 1, e1_tile_byCenter.y + 1)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x + 1, e1_tile_byCenter.y + 1)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
             current_tile = Collector.getBlockMap().get(tileKey);
             if (isAabbYCollision(e1_pos,
@@ -217,7 +225,7 @@ public class AABB {
         }
         /*top collision end*/
         /*bottom collision beginning*/
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x, e1_tile_byCenter.y - 1)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x, e1_tile_byCenter.y - 1)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
 
             current_tile = Collector.getBlockMap().get(tileKey);
@@ -234,7 +242,7 @@ public class AABB {
 
 
         }
-        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x + 1, e1_tile_byCenter.y - 1)) && Collector.getBlockMap().get(tileKey)!=null) {
+        if (Collector.getBlockMap().containsKey(tileKey.set(e1_tile.x + 1, e1_tile_byCenter.y - 1)) && Collector.getBlockMap().get(tileKey)!=null && !Collector.getBlockMap().get(tileKey).isTriger()) {
             current_tile_pos = getPosByKey(tileKey);
 
             current_tile = Collector.getBlockMap().get(tileKey);

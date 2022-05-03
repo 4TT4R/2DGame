@@ -35,6 +35,7 @@ public class GameScene extends Scene {
 	private PlayerMovement PM;
 	private boolean pause, respawn, can_move, next_level, colliding;
 	private Shader sdfShader;
+	private HashMap<Integer, Float> delete = new HashMap<Integer, Float>();
 	private Button Start, Quit;
 	private CompRender fontRender;
 	private ButtonListener buttonListener;
@@ -239,7 +240,6 @@ public class GameScene extends Scene {
 							}
 						} else if (current_tile.getType().equals("destroi") && Collector.getBlockMap().containsKey(under_tile_key) && Collector.getBlockMap().get(under_tile_key)!=null) {
 							ChangeTimer.add(new BlockTimer(under_tile_key, under_tile, destroi_time));
-
 
 						}
 					}
@@ -484,7 +484,7 @@ public class GameScene extends Scene {
 	}
 	
 	public GameScene(String MapName, long win, int i, SceneManager scmg) {
-		godMod = false;
+		godMod = true;
 		colliding = true;
         vector2f = new Vector2f();
         tileKey = new Vector2f();
@@ -531,12 +531,12 @@ public class GameScene extends Scene {
 		}
 		else if (level==1){
 
-
+			Level_floor_ciling = new Vector2f(25*level+23,2450);
 			Collector.setCeil(25*level+23);
 			Collector.setFloor(25-1);
 		}
 		else{
-
+			Level_floor_ciling = new Vector2f(25*level+23+25,2450);
 			Collector.setCeil(24*level+23+25);
 			Collector.setFloor(24*level+24);
 		}
@@ -630,7 +630,7 @@ public class GameScene extends Scene {
 			getCollision();
             updateProjectiles();
             if (CursorInput.isPressed(GLFW_MOUSE_BUTTON_1) && !ad) {
-                projectiles.add(projectile.init(player.getPos().x, player.getPos().y));
+                projectiles.add(projectile.init(player.getPos().x, player.getPos().y+250, Collector.getCursorPos().x, Collector.getCursorPos().y));
                 ad = true;
             }
             if (ad) {
@@ -873,9 +873,24 @@ public class GameScene extends Scene {
 	public void updateProjectiles() {
 		for (int i = projectiles.size()-1; i >= 0; i--) {
 			projectile.setDistanceAndPos(projectiles.get(i)[0], projectiles.get(i)[1], projectiles.get(i)[2], projectiles.get(i)[3]);
-			projectile.update();
-			if (projectile.updateArray()[4] == 1) {
-				projectiles.remove(i);
+			projectile.update(player.getPos(), new Vector2f(0), player.getSize());
+			if (projectile.updateArray()[4] >= 1) {
+
+				if (!delete.containsKey(i)) {
+
+					delete.put(i, 0f);
+				}
+				else{
+					delete.replace(i, delete.get(i)+1);
+				}
+				projectile.updateArray(0f, 0f);
+				projectile.updateArray(delete.get(i)+1);
+
+
+				if (delete.get(i)>=7) {
+					projectiles.remove(i);
+					delete.remove(i);
+				}
 			}
 			else {
 

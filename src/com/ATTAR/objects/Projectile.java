@@ -16,12 +16,13 @@ public class Projectile {
     private Texture tx;
     private Vector2f vector;
     private float distance, speed;
-    private Vector2f pos, size;
+    private Vector2f pos, size, t_pos;
     private Vector3f Scale;
     private CompRender render;
     private Vector4f AABB;
     private float destroy = 0;
     private String Texture;
+    private float scale = 0.5f;
 
     private AABB collision = new AABB();
 
@@ -52,10 +53,9 @@ public class Projectile {
         return new Vector2f((int)Math.floor(pos.x/100), (int)Math.floor(pos.y/100));
     }
     public Projectile(Camera cam) {
-
         render = new CompRender();
         try {
-            tx = new Texture("./Assets/Tiles/Player_idle.png");
+            tx = new Texture("./Assets/Tiles/Bullet.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,26 +65,29 @@ public class Projectile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        AABB = new Vector4f((float) Math.floor(32d/32d*100d),(float) Math.floor(32d/32d*100d), 0,0);
         explosionTxID = tx.getTexID();
+        AABB = new Vector4f((float) Math.floor(32d/32d*(100*scale)),(float) Math.floor(32d/32d*(100*scale)), 0,0);
         pos = new Vector2f(0);
+        t_pos = new Vector2f(0);
         vector = new Vector2f(0);
-        speed = 10;
+        speed = 0.05f;
         txID = projectileTxID;
-        Scale = new Vector3f(1f);
+        Scale = new Vector3f(scale);
         setSize(new Vector2f(100));
-        render = new CompRender();
-        render.init(shader,Texture, cam, false);
+
+        render.init(shader,tx, cam, false);
+
     }
+
     public void calculateVector() {
 
-        distance = (float) Math.sqrt((Math.pow(Collector.getCursorPos().x,2)+Math.pow(Collector.getCursorPos().y,2)));
-        vector.set(Collector.getCursorPos().x/(distance/speed), Collector.getCursorPos().y/(distance/speed));
+        distance = (float) Math.sqrt((Math.pow(t_pos.x,2)+Math.pow(t_pos.y,2)));
+        vector.set(t_pos.x/(distance/speed), t_pos.y/(distance/speed));
     }
     public void calculateVector(float x, float y) {
 
-        double a = ((Collector.getCamSize().x/Collector.getWinSize().x*Collector.getCursorPos().x+Collector.getCamPos().x)-x);
-        double b = ((Collector.getCamPos().y+Collector.getCamSize().y-Collector.getCamSize().y/Collector.getWinSize().y*Collector.getCursorPos().y)-y);
+        double a = ((Collector.getCamSize().x/Collector.getWinSize().x*t_pos.x+Collector.getCamPos().x)-x);
+        double b = ((Collector.getCamPos().y+Collector.getCamSize().y-Collector.getCamSize().y/Collector.getWinSize().y*t_pos.y)-y);
  /*       if (a<0) {
             a=a*-1;
         }
@@ -94,7 +97,7 @@ public class Projectile {
         distance = (float) Math.sqrt(((Math.pow(a,2)+Math.pow(b,2))));
 
 
-        vector.set((float) a/speed, (float) b/speed);
+        vector.set((float) a/(distance * speed), (float) b/(distance * speed));
     }
 
     public float[] init() {
@@ -102,8 +105,9 @@ public class Projectile {
         calculateVector();
         return new float[] {pos.x, pos.y, vector.x, vector.y};
     }
-    public float[] init(float x, float y) {
+    public float[] init(float x, float y, float t_x, float t_y) {
         pos.set(x, y);
+        t_pos.set(t_x, t_y);
         calculateVector(x, y);
         return new float[] {pos.x, pos.y, vector.x, vector.y,destroy};
     }
@@ -114,18 +118,27 @@ public class Projectile {
     }
 
     public float[] updateArray() {
+
+        return new float[] {pos.x, pos.y, vector.x, vector.y,destroy};
+    }
+    public float[] updateArray(float vec_x, float vec_y) {
+        return new float[] {pos.x, pos.y, vec_x, vec_y,destroy};
+    }
+    public float[] updateArray(float destroy) {
         return new float[] {pos.x, pos.y, vector.x, vector.y,destroy};
     }
 
-    public void update() {
-        if(collision.AABBProjectile(getTileByCenter(), getTile(), new Vector2f(), new Vector2f(), AABB, vector, new Vector4f(), new Vector2f(), pos, new Vector2f())) {
+    public void update(Vector2f p_pos, Vector2f p_vector, Vector4f p_AABB) {
+        if(collision.AABBProjectile(getTileByCenter(), getTile(), AABB, vector, pos) ||collision.AABBProjectileWithPlayer(pos, vector, AABB, p_pos, p_vector, p_AABB)) {
             destroy= 1;
+            txID = explosionTxID;
         }
         else {
             destroy = 0;
+            txID = projectileTxID;
         }
         pos.set(pos.x + vector.x, pos.y + vector.y);
-        render.setPos(pos.x, pos.y);
+        render.setPos(pos.x, pos. y);
         render.Update(Scale, txID);
 
 

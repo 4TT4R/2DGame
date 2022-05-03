@@ -31,11 +31,7 @@ public class Player {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			tx2 = new Texture("./Assets/Tiles/Player_idle.png");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 		idleID = tx.getTexID();
 		try {
 			tx.genAnimation("./Assets/Tiles/Player_Walk_R.png");
@@ -43,7 +39,7 @@ public class Player {
 			e.printStackTrace();
 		}
 		try {
-			tx2.genAnimation("./Assets/Tiles/Player_Walk_L.png");
+			tx2 = new Texture("./Assets/Tiles/Player_Walk_L.png");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
